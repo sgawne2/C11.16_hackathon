@@ -1,3 +1,4 @@
+<!-- Mike, Sean G, Miles, Vernon    Music Venue API     Hack-a-thon     December 12-14, 2016 -->
 
 <!doctype html>
 <html lang="en">
@@ -18,34 +19,38 @@
 
     <body>
         <div class="container">
-            <h3>VenueFind</h3>
+            <header>
+                <h3>VenueFind</h3>
+                <p>Find Your Music Tonight!</p>
+            </header>
 
-            <div>
-                <form method="post" action="demoform.asp">
-                    <label for="miles">Miles:</label>
-                    <input type="range" data-show-value="true" name="miles" id="miles" value="10" min="1" max="100">
-                </form>
-            </div>
+            <main>
+                <div class="form-group input-group inlineBlock col-xs-12 col-sm-12 col-md-5 col-lg-5" >
+                    <!--<span class="input-group-addon">-->
+                        <!--<span class="glyphicon glyphicon-option-horizontal"></span>-->
+                    <!--</span>-->
+                    <input type="text" class="form-control" name="zip" id="zipcode" placeholder="Enter Zip Code">
+                </div>
 
-            <div>
-                <div class="form-group input-group">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-option-vertical"></span>
-                    </span>
+                <!--<div class="slider col-xs-12 col-sm-12" >-->
+                    <!--<form method="post" action="demoform.asp" >-->
+                        <!--<label for="miles">Miles:</label>-->
+                        <!--<input type="range" data-show-value="true" name="miles" id="miles" value="10" min="1" max="100">-->
+                    <!--</form>-->
+                <!--</div>-->
+
+                <div class="form-group input-group inlineBlock col-xs-12 col-sm-12 col-md-5 col-lg-5" >
+                    <!--<span class="input-group-addon">-->
+                        <!--<span class="glyphicon glyphicon-option-vertical"></span>-->
+                    <!--</span>-->
                     <input type="text" class="form-control" name="radius" id="radius" placeholder="Search radius (miles)">
                 </div>
-            </div>
 
-            <div class="form-group input-group">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-option-horizontal"></span>
-                </span>
-                <input type="text" class="form-control" name="zip" id="zipcode" placeholder="Enter Zip Code">
-            </div>
-
-            <div>
-                <button type="button" class="btn btn-success">Go!</button>
-            </div>
+                <div>
+                    <button type="button" class="btn btn-success inlineBlock col-xs-12 col-sm-12 col-md-1 col-lg-1">Go!</button>
+                </div>
+            </main>
         </div>
     </body>
 </html>
+

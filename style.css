@@ -1,8 +1,12 @@
 
-h3 {
+header {
     text-align: center;
 }
 
 button {
     margin: auto;
+}
+
+.inlineBlock {
+    display:    inline-block;
 }
