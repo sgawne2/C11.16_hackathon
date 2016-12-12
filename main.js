@@ -1,13 +1,9 @@
 /* Sean, Miles, Mike, Vernon    Music Venue     Hack-a-thon     December 12-13, 2016    */
 
 
-
-
 var zipcode;
 
 $(document).ready(function(){
-
-
     $('button').click(function(){
         zipcode = $('.zipcode').val();
         console.log('click initiated');
