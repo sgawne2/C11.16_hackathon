@@ -23,6 +23,7 @@ $(document).ready(function(){
         });
         console.log('End of click function');
     });
+
     // flicker API call begins here
     $(document).ready(function(){
         $('button').click(function(){
@@ -36,13 +37,13 @@ $(document).ready(function(){
                     var photoId = result.photos.photo[0].id;
                     var secret = result.photos.photo[0].secret;
                     var image = $("<img>").attr("src", "https://farm1.staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg");
+                    var photosArray = result.photos.photo;
 
-                    for (var i = 0; i < 10; i++) {
+                    for (var i = 0; i < 10 && photosArray.length ; i++) {
                         server = result.photos.photo[i].server;
                         photoId = result.photos.photo[i].id;
                         secret = result.photos.photo[i].secret;
                         var image = $("<img>").attr("src", "https://farm1.staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg");
-
                         $('body').append(image);
                     }
                 }
