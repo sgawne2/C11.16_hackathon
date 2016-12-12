@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDT9DL6C25JDhTG0ud6mH6T7GWo6BcRg7s&libraries=places"></script>
+    <title>Document</title>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 400px;
+            width: 700px;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script>
+        // This example requires the Places library. Include the libraries=places
+        // parameter when you first load the API. For example:
+
+
+        var map;
+        var infowindow;
+
+
+        function initMap() {
+            var lat = 33;
+            var long = -117;
+            var radius = 50000;
+            //radius in meters
+            var keyword = "music venues";
+
+            var original_location = {lat: lat, lng: long};
+
+            //var original_location = {lat: -33.867, lng: 151.195};
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: original_location,
+                zoom: 5
+            });
+
+            infowindow = new google.maps.InfoWindow();
+            var service = new google.maps.places.PlacesService(map);
+            service.nearbySearch({
+                location: original_location,
+                radius: radius,
+//                type: ['store']
+                keyword: "music venues"
+            }, callback);
+        }
+
+        function callback(results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                for (var i = 0; i < results.length; i++) {
+                    createMarker(results[i]);
+                }
+            }
+            console.log(results);
+        }
+
+        function createMarker(place) {
+            var placeLoc = place.geometry.location;
+            var marker = new google.maps.Marker({
+                map: map,
+                position: place.geometry.location
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setContent(place.name);
+                infowindow.open(map, this);
+            });
+        }
+        $(document).ready(function() {
+            initMap();
+        });
+
+    </script>
+</head>
+<body>
+<div id="map"></div>
+</body>
+</html>
