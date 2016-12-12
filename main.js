@@ -5,9 +5,7 @@ var zipcode;
 var imageSearch;
 
 $(document).ready(function(){
-
-
-    $('button').click(function(){
+    $('.zipCodeButton').click(function(){
         zipcode = $('.zipcode').val();
         console.log('click initiated');
         $.ajax({
@@ -23,10 +21,9 @@ $(document).ready(function(){
         });
         console.log('End of click function');
     });
-
     // flicker API call begins here
-    $(document).ready(function(){
-        $('button').click(function(){
+    
+      $('.photosButton').click(function(){
             imageSearch = $("#imageSearch").val();
             console.log('click initiated');
             $.ajax({
@@ -51,5 +48,28 @@ $(document).ready(function(){
             console.log('End of click function');
         });
     });
+    
+$('.youTubeButton').click(function() {
+        console.log("button clicked");
+        $.ajax({
+            dataType:   'json',
+            url:    'http://s-apis.learningfuze.com/hackathon/youtube/search.php?q=The Copper Door&maxResults=12',
+            method: "POST",
+            success: function(result) {
+                array = result.video;
+                length = array.length
+
+                console.log('AJAX successfully called');
+                var abc;
+                for (var i=0, i < length) {
+
+                }
+                abc = result.video[1].title;
+
+                {"title":"Private Dining at Copper Door Restaurant","id":"E_0k-gceifk"}
+            }
+        });
+    });
 
 });
+
