@@ -1,3 +1,5 @@
+
+
 /* Sean, Miles, Mike, Vernon    Music Venue     Hack-a-thon     December 12-13, 2016    */
 
 //START GOOGLE PLACES API
@@ -26,6 +28,24 @@ var YT_num = 1;
 
 $(document).ready(function(){
     //initMap(51.4826,0.0077,100000);
+
+    $(".dropPhotosButton").click(function () {
+        $(".Container1").show();
+        $(".Container2").hide();
+        $(".Container3").hide();
+    });
+
+    $(".dropYouTubeButton").click(function () {
+        $(".Container3").show();
+        $(".Container1").hide();
+        $(".Container2").hide();
+    });
+    $(".droptweetsbutton").click(function () {
+        $(".Container3").show();
+        $(".Container1").hide();
+        $(".Container2").hide();
+    });
+
 
     lat_from_landing = parseFloat(getUrlParameter("lat"));
     long_from_landing = parseFloat(getUrlParameter("long"));
@@ -182,23 +202,23 @@ function landingPageButtonClicked() {
 
 
 function zipCodeButtonClicked() {
-        zipcode = input_zipcode.val();
-        radius = $('#radius').val();
-        console.log('click initiated');
-        $.ajax({
-            dataType: 'json',
-            url: 'http://maps.googleapis.com/maps/api/geocode/json?address='+ zipcode,
-            method: "POST",
-            success: function(data) {
-                console.log('AJAX Success function called, with the following result:', data);
-                latitude = data.results[0].geometry.location.lat;
-                longitude= data.results[0].geometry.location.lng;
-                console.log(data);
-                console.log("Lat = "+latitude+"- Long = "+longitude + " - Radius = " +radius);
-                initMap(latitude, longitude, radius);
-            }
-        });
-        console.log('End of click function');
+    zipcode = input_zipcode.val();
+    radius = $('#radius').val();
+    console.log('click initiated');
+    $.ajax({
+        dataType: 'json',
+        url: 'http://maps.googleapis.com/maps/api/geocode/json?address='+ zipcode,
+        method: "POST",
+        success: function(data) {
+            console.log('AJAX Success function called, with the following result:', data);
+            latitude = data.results[0].geometry.location.lat;
+            longitude= data.results[0].geometry.location.lng;
+            console.log(data);
+            console.log("Lat = "+latitude+"- Long = "+longitude + " - Radius = " +radius);
+            initMap(latitude, longitude, radius);
+        }
+    });
+    console.log('End of click function');
 }
 
 function flickrButtonClicked() {
@@ -223,12 +243,12 @@ function flickrButtonClicked() {
                 image = $("<img>").attr("src", "https://farm1.staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg");
                 if ( !i ) {
                     var imageDiv = $("<div>").addClass("item active");
-                    $(".carousel-inner").append(imageDiv);
+                    $("#myCarousel .carousel-inner").append(imageDiv);
                     $(imageDiv).append(image);
                 }
                 else{
                     imageDiv = $("<div>").addClass("item");
-                    $(".carousel-inner").append(imageDiv);
+                    $("#myCarousel .carousel-inner").append(imageDiv);
                     $(imageDiv).append(image);
                 }
             }
@@ -237,7 +257,7 @@ function flickrButtonClicked() {
     console.log('End of click function');
 }
 
-    function getAndDisplayFirstTweets (Twitter_searchTerm) {
+ function getAndDisplayFirstTweets (Twitter_searchTerm) {
         var photo, picLink;
         tweetNum = 1;
 
@@ -256,7 +276,7 @@ function flickrButtonClicked() {
                 var length = array.length;
                 totalTweetNum = length;
 
-                for (var j=0; j < length; j++) {
+                for (var j = 0; j < length; j++) {
                     console.log("j: " + j);
                     tweet_storage_array[j] = {};
                     tweet_storage_array[j].urlPic = result.tweets.statuses[j].user.profile_image_url;
@@ -264,9 +284,10 @@ function flickrButtonClicked() {
                 }
                 displayTweets();
                 console.log("tweet_storage_array: ", tweet_storage_array);
+
             }
-        });
-    }
+    });
+}
 
     function displayTweets() {
         var length, photo, picLink, secondNumber, tweet;
@@ -329,39 +350,47 @@ function flickrButtonClicked() {
         displayTweets();
     }
 
-    function getAndDisplayYTVideos (YT_searchTerm) {
-        var title, id_video, vid;
-        console.log("in function getAndDisplayYTVideos");
+function getAndDisplayYTVideos (YT_searchTerm) {
+    var title, id_video, vid;
+    console.log("in function getAndDisplayYTVideos");
 
-        $.ajax ({
-            dataType:   'json',
-            url:        'http://s-apis.learningfuze.com/hackathon/youtube/search.php?',
-            method:     "POST",
-            data: {q: YT_searchTerm, maxResults: 5},
-            success: function(result) {
-                console.log('AJAX successfully called');
-                console.log("result: ", result);
+    $.ajax ({
+        dataType:   'json',
+        url:        'http://s-apis.learningfuze.com/hackathon/youtube/search.php?',
+        method:     "POST",
+        data: {q: YT_searchTerm, maxResults: 5},
+        success: function(result) {
+            console.log('AJAX successfully called');
+            console.log("result: ", result);
 
-                var array = result.video;
-                // var length = array.length;
+            var array = result.video;
+            // var length = array.length;
 
-                for (var j=0; j < YT_num; j++) {
-                    console.log("j: " + j);
+            for (var j=0; j < YT_num; j++) {
+                console.log("j: " + j);
 
-                    title = result.video[j].title;
-                    $(".Container3").append(title);
-                    $(".Container3").append("<br>");
+                title = result.video[j].title;
+                id_video = result.video[j].id;
+                console.log("id: ", id_video);
 
-                    id_video = result.video[j].id;
-                    console.log("id: ", id_video);
-
-                    vid = $("<iframe>", {
-                        src: "https://www.youtube.com/embed/" + id_video
-                    });
-
-                    $(".Container3").append(vid);
-                    $(".Container3").append("<br>");
+                vid = $("<iframe>", {
+                    src: "https://www.youtube.com/embed/" + id_video
+                });
+                if (!j) {
+                    var youTubeDiv = $("<div>").addClass("item active");
+                    $("#myCarousel2 .carousel-inner").append(youTubeDiv);
+                    $(youTubeDiv).append(vid);
+                }
+                else {
+                    youTubeDiv = $("<div>").addClass("item");
+                    $("#myCarousel2 .carousel-inner").append(youTubeDiv);
+                    $(youTubeDiv).append(vid);
                 }
             }
-        });
-    }
+        }
+    });
+}
+
+
+
+

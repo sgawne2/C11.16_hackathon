@@ -90,6 +90,9 @@ iframe {
 .container1 {
     display: none;
 }
+.container3{
+    display: none;
+}
 .carousel-inner{
     height: 400px;
     width: 100vw;
@@ -237,21 +240,23 @@ h4{
 *LANDING PAGE DESIGN END
 */
 
-.Container1 {
+.Container1  {
+    height: 30vh;
+    width: 90vw;
+
 
 }
 
 .Container2 {
-    height:             30vh;
-    width:              90vw;
-    /*background-color:   pink;*/
+    height: 30vh;
+    width:  90vw;
+    display: none;
+}
+.Container3 {
+    display:none;
 }
 
-.Container3 {
-    height:             30vh;
-    width:              90vw;
-    background-color:   lightyellow;
-}
+
 
 /*table, tr, td {*/
     /*border:             0.2em solid blue;*/
