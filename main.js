@@ -81,7 +81,7 @@ $(document).ready(function() {
     getAndDisplayFirstTweets(venue_name); // call function to get tweets from Twitter API and display on info.html
     getAndDisplayYTVideos(venue_name);  // call function to get YouTube videos from YouTube API and display on info.html
     // flicker API call begins here
-    getAndDisplayFlickrPhotos(venue_name);
+    //getAndDisplayFlickrPhotos(venue_name);
 });
 
 /**
