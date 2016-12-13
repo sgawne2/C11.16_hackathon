@@ -13,7 +13,9 @@ var map;
 var infowindow;
 var places_array = [];
 var places_list;
-var tweet_storage_array = [];
+var tweet_storage_array = [];   // where I store all the tweets for the current venue
+var tweetNum;                   // which Tweet number we are on, the 1st of five
+var totalTweetNum;              // the number of tweets we have pulled from Twitter API for the current venue
 
 /**
  *
@@ -115,6 +117,9 @@ $(document).ready(function(){
     getAndDisplayYTVideos ("The Observatory");  // call function to get YouTube videos from YouTube API and display on info.html
     getAndDisplayFirstTweets ("Yost Theater");       // call function to get tweets from Twitter API and display on info.html
 
+    $('.followingTweets').click(displayFollowingTweets);    // clears current tweets and displays the next 5 tweets
+    $('.precedingTweets').click(displayPrecedingTweets);    // clears current tweets and displays the preceding 5 tweets
+
     $('.zipCodeButton').click(function(){
         zipcode = $('#zipcode').val();
         radius = $('#radius').val();
@@ -175,10 +180,12 @@ $(document).ready(function(){
         });
 
     function getAndDisplayFirstTweets (Twitter_searchTerm) {
-        var photo, picLink, tweet;
+        var photo, picLink;
         var tweet_storage_array = [];
+        tweetNum = 1;
 
-        console.log("in function getAndDisplayTweets");
+        console.log("in function getAndDisplayFirstTweets");
+
         $.ajax ({
             dataType:   'json',
             url:        'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
@@ -190,6 +197,7 @@ $(document).ready(function(){
 
                 var array = result.tweets.statuses;
                 var length = array.length;
+                var totalTweetNum = length;
 
                 for (var j=0; j < length; j++) {
                     console.log("j: " + j);
@@ -197,19 +205,19 @@ $(document).ready(function(){
                     tweet_storage_array[j].urlPic = result.tweets.statuses[j].user.profile_image_url;
                     tweet_storage_array[j].twt = result.tweets.statuses[j].text;
                 }
-                displayTweets(1, length);
+                displayTweets ();
                 console.log("tweet_storage_array: ", tweet_storage_array);
             }
         });
     }
 
-    function displayTweets (tweetNum, totalTweetNum) {
-        var length;
+    function displayTweets () {
+        var length, photo, picLink, tweet;
+
         $(".Container2 .twit thead tr th:nth-child(3)").text(tweetNum);
         $(".Container2 .twit thead tr th:nth-child(5)").text(tweetNum+4);
         $(".Container2 .twit thead tr th:nth-child(7)").text(totalTweetNum);
 
-        length = tweet_array.length;
         for (var w=tweetNum - 1; w < tweetNum + 4 ; w++) {
             $(".Container2 .twit tbody").append($("<tr>"));             // append table row
 
@@ -217,29 +225,29 @@ $(document).ready(function(){
                 $(".Container2 .twit tbody tr:last-child").append($("<td>"));
             }
 
-            picLink = tweet_array[w].urlPic;
+            picLink = tweet_storage_array[w].urlPic;
             photo = $("<img>", {
                 src: picLink
             });
             $(".Container2 .twit tbody tr:last-child td:first-child").append(photo);
 
-            tweet = tweet_array[w].twt;
+            tweet = tweet_storage_array[w].twt;
             $(".Container2 .twit tbody tr:last-child td:nth-child(2)").append(tweet);
         }
-
     }
-
-    $('.followingTweets').click(displayFollowingTweets);
 
     function displayFollowingTweets () {
         $("tbody tr").remove();
-        displayTweets()
+        tweetNum += 5;
+        displayTweets();
     }
 
-    $('.precedingTweets').click(function(){
+    function displayPrecedingTweets (){
         $("tbody tr").remove();
-        displayTweets()
+        tweetNum -= 5;
+        displayTweets();
     }
+
     function getAndDisplayYTVideos (YT_searchTerm) {
         var title, id_video, vid;
         console.log("in function getAndDisplayYTVideos");
