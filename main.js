@@ -25,8 +25,11 @@ var places_array = [];
 var tweet_storage_array = [];   // where I store all the tweets for the current venue
 var tweetNum;                   // which Tweet number we are on, the 1st of five
 var totalTweetNum;              // the number of tweets we have pulled from Twitter API for the current venue
+var YT_num = 1;
 
 $(document).ready(function() {
+
+    //initMap(51.4826,0.0077,100000);
 
     $(".dropPhotosButton").click(function () {
         $(".Container1").show();
@@ -70,7 +73,6 @@ $(document).ready(function() {
 
     $('.followingTweets').click(displayFollowingTweets);    // clears current tweets and displays the next 5 tweets
     $('.precedingTweets').click(displayPrecedingTweets);    // clears current tweets and displays the preceding 5 tweets
-
 
     $('.autoLocationButton').click(function() {
         "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC87SYazc5x5nNq7digLxdNnB3riG_eaVc"
@@ -289,7 +291,7 @@ function getAndDisplayFlickrPhotos(string) {
 
                 var array = result.tweets.statuses;
                 var length = array.length;
-                var totalTweetNum = length;
+                totalTweetNum = length;
 
                 for (var j = 0; j < length; j++) {
                     console.log("j: " + j);
@@ -304,64 +306,84 @@ function getAndDisplayFlickrPhotos(string) {
     });
 }
 
+    function displayTweets() {
+        var length, photo, picLink, secondNumber, tweet;
 
-function displayTweets() {
-    var length, photo, picLink, tweet;
+        secondNumber = tweetNum + 4;
 
-    $(".Container2 .twit thead tr th:nth-child(3)").text(tweetNum);
-    $(".Container2 .twit thead tr th:nth-child(5)").text(tweetNum+4);
-    $(".Container2 .twit thead tr th:nth-child(7)").text(totalTweetNum);
-
-    for (var w=tweetNum - 1; w < tweetNum + 4 ; w++) {
-        $(".Container2 .twit tbody").append($("<tr>"));             // append table row
-
-        for (var v=0; v < 2; ++v) {                     // append 2 columns to the row just created
-            $(".Container2 .twit tbody tr:last-child").append($("<td>"));
+        if (secondNumber > totalTweetNum) {     // don't want something like "6 to 10 of 8 tweets", want "6 to 8 of 8 tweets"
+            secondNumber = totalTweetNum;
         }
 
-        picLink = tweet_storage_array[w].urlPic;
-        photo = $("<img>", {
-            src: picLink
-        });
-        $(".Container2 .twit tbody tr:last-child td:first-child").append(photo);
+        $(".Container2 .twit thead tr th:nth-child(3)").text(tweetNum);
+        $(".Container2 .twit thead tr th:nth-child(5)").text(secondNumber);
+        $(".Container2 .twit thead tr th:nth-child(7)").text(totalTweetNum);
 
-        tweet = tweet_storage_array[w].twt;
-        $(".Container2 .twit tbody tr:last-child td:nth-child(2)").append(tweet);
+        for (var w=tweetNum - 1; w < tweetNum + 4 ; w++) {
+            $(".Container2 .twit tbody").append($("<tr>"));     // append table row
+
+            for (var v=0; v < 2; ++v) {                         // append 2 columns to the row just created
+                $(".Container2 .twit tbody tr:last-child").append($("<td>"));
+            }
+
+            picLink = tweet_storage_array[w].urlPic;
+            photo = $("<img>", {
+                src: picLink
+            });
+            $(".Container2 .twit tbody tr:last-child td:first-child").append(photo);
+
+            tweet = tweet_storage_array[w].twt;
+            $(".Container2 .twit tbody tr:last-child td:nth-child(2)").append(tweet);
+        }
     }
-}
 
     function displayFollowingTweets () {
-        $("tbody tr").remove();
         tweetNum += 5;
+        $("tbody tr").remove();
 
-        if (tweetNum >= totalTweetNum)
+        if (tweetNum > totalTweetNum) {
+            tweetNum = 1;
+        }
+
         displayTweets();
     }
 
+    function displayPrecedingTweets () {
+        var remainer;
 
-function displayPrecedingTweets (){
-    $("tbody tr").remove();
-    tweetNum -= 5;
-    displayTweets();
-}
+        tweetNum -= 5;
+        $("tbody tr").remove();
+
+        if (tweetNum < 1) {             // if you're already at the 1st 5 tweets, then wrap around to the last tweets
+            remainder = totalTweetNum % 5;
+
+            if (remainder === 0) {      // tweetNum always starts at 1, 6, 11, 16, etc.
+                tweetNum = totalTweetNum - 4;
+            } else {
+                tweetNum = totalTweetNum - remainder + 1;
+            }
+        }
+
+        displayTweets();
+    }
 
 function getAndDisplayYTVideos (YT_searchTerm) {
     var title, id_video, vid;
     console.log("in function getAndDisplayYTVideos");
 
-    $.ajax ({
-        dataType:   'json',
-        url:        'http://s-apis.learningfuze.com/hackathon/youtube/search.php?',
-        method:     "POST",
+    $.ajax({
+        dataType: 'json',
+        url: 'http://s-apis.learningfuze.com/hackathon/youtube/search.php?',
+        method: "POST",
         data: {q: YT_searchTerm, maxResults: 5},
-        success: function(result) {
+        success: function (result) {
             console.log('AJAX successfully called');
             console.log("result: ", result);
 
             var array = result.video;
-            var length = array.length;
+            // var length = array.length;
 
-            for (var j=0; j < length; j++) {
+            for (var j = 0; j < YT_num; j++) {
                 console.log("j: " + j);
 
                 title = result.video[j].title;
