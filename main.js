@@ -1,12 +1,95 @@
 /* Sean, Miles, Mike, Vernon    Music Venue     Hack-a-thon     December 12-13, 2016    */
 
-
+//START GOOGLE PLACES API
 var zipcode;
 var imageSearch;
 
+var map;
+var infowindow;
+var places_array = [];
+var places_list;
+
+function initMap(lat, long, radius) {
+    // var lat = 33;
+    // var long = -117;
+    //var radius = 50000;
+    //radius in meters
+    var keyword = "music venues";
+
+    var original_location = {lat: lat, lng: long};
+
+    //var original_location = {lat: -33.867, lng: 151.195};
+
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: original_location,
+        zoom: 5
+    });
+
+    infowindow = new google.maps.InfoWindow();
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch({
+        location: original_location,
+        radius: radius,
+//                type: ['store']
+        keyword: "music venues"
+    }, callback);
+}
+
+function callback(results, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+            createMarker(results[i]);
+        }
+    }
+    console.log(results);
+    places_array = results;
+    populateList();
+}
+
+function createMarker(place) {
+    var placeLoc = place.geometry.location;
+    var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.setContent(place.name);
+        infowindow.open(map, this);
+    });
+}
+
+function populateList() {
+    var len = places_array.length;
+    for(var i = 0; i < len; i++) {
+        addPlaceToDom(places_array[i]);
+    }
+}
+
+function addPlaceToDom(placeObj) {
+    var name = placeObj.name;
+    var vicinity  = placeObj.vicinity;
+    var rating  = placeObj.rating;
+    var hours = false;
+    if (placeObj.opening_hours) {
+        hours = placeObj.opening_hours.open_now;
+    }
+    var tr = $('<tr>');
+    var delete_button = $('<button type="button" class="btn btn-info">Images</button>');
+    tr.append( $('<td>').text(name) );
+    tr.append( $('<td>').text(vicinity) );
+    tr.append( $('<td>').text(hours) );
+    tr.append( $('<td>').text(rating) );
+    tr.append( $('<td>').append(delete_button) );
+    tr.appendTo(places_list);
+}
+//END GOOGLE PLACES API
+
+
 $(document).ready(function(){
     $('.zipCodeButton').click(function(){
-        zipcode = $('.zipcode').val();
+        zipcode = $('#zipcode').val();
+        radius = $('#radius').val();
         console.log('click initiated');
         $.ajax({
             dataType: 'json',
@@ -16,7 +99,9 @@ $(document).ready(function(){
                 console.log('AJAX Success function called, with the following result:', data);
                 latitude = data.results[0].geometry.location.lat;
                 longitude= data.results[0].geometry.location.lng;
-                alert("Lat = "+latitude+"- Long = "+longitude);
+                console.log(data);
+                alert("Lat = "+latitude+"- Long = "+longitude + " - Radius = " +radius);
+                initMap(latitude, longitude, radius);
             }
         });
         console.log('End of click function');
@@ -48,7 +133,7 @@ $(document).ready(function(){
             console.log('End of click function');
         });
 
-    
+
 // $('.youTubeButton').click(function() {
 //         console.log("button clicked");
 //         $.ajax({
@@ -71,6 +156,8 @@ $(document).ready(function(){
 //         });
 //     });
 
+    //initMap();
+    places_list = $('.places-list');
 });
 
 
