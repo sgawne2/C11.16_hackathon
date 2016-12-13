@@ -3,7 +3,6 @@
 //START GOOGLE PLACES API
 var zipcode;
 var imageSearch;
-
 var map;
 var infowindow;
 var places_array = [];
@@ -153,7 +152,6 @@ $(document).ready(function(){
     function getTweets (Twitter_searchTerm) {
         var photo, picLink, tweet;
         var tweet_storage_array = [];
-
         console.log("in function getAndDisplayTweets");
         $.ajax ({
             dataType:   'json',
