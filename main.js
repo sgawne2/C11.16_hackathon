@@ -89,7 +89,7 @@ function addPlaceToDom(placeObj) {
     }
     var tr = $('<tr>');
     var media_button = $('<button type="button" class="btn btn-info mediaButton">Images</button>');
-    tr.append( $('<td>').text(name) );
+    tr.append( $('<td>').html('<a href="#">' + name + '</a>') );
     tr.append( $('<td>').text(vicinity) );
     tr.append( $('<td>').text(hours) );
     tr.append( $('<td>').text(rating) );
