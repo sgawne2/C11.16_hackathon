@@ -22,7 +22,7 @@ function initMap(lat, long, radius) {
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: original_location,
-        zoom: 5
+        zoom: 10
     });
 
     infowindow = new google.maps.InfoWindow();

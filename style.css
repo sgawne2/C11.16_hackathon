@@ -7,7 +7,6 @@ button {
     margin: auto;
 }
 
-
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
     width: 70%;
@@ -20,27 +19,18 @@ button {
 }
 
 .container{
-    width:80vw;
-}
+     width:80vw;
+ }
 
 .photosButton > a{
     color:white;
 }
 
-a:hover{
-  text-decoration:none;
-}
-
-a:link{
-  text-decoration:none;
-}
-
-a:visited{
-    text-decoration:none;
-}
-
+a:hover,
+a:link,
+a:visited,
 a:active{
-    text-decoration:none;
+  text-decoration:none;
 }
 
 /*.container{*/
@@ -52,15 +42,16 @@ a:active{
 
 .form-inline{
     width:60vw;
-    margin: 0 auto;
+    margin: auto;
 }
 
 /* Always set the map height explicitly to define the size of the div
          * element that contains the map. */
 #map {
-    height: 400px;
-    width: 700px;
+    width: 80vw;
     margin: 0 auto;
+    position:relative;
+    top: 10vh;
 }
 
 thead > tr{
@@ -73,15 +64,145 @@ tbody>tr,
     transition: background-color 0.5s linear 0s, color 0.5s linear 0s;
 }
 
-
-/*.inlineBlock {*/
-    /*display:    inline-block;*/
-/*}*/
-
 iframe {
-    frameborder:    0;
+    frameborder: 0;
 }
 
 #myCarousel{
     display: none;
 }
+
+.panel-default{
+    padding:0;
+    position:relative;
+    top: 15vh;
+}
+
+.btn-info {
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#5b5b5b", endColorstr="#282828");
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#5b5b5b), to(#282828));
+    background-image: -moz-linear-gradient(top, #5b5b5b, #282828);
+    background-image: -ms-linear-gradient(top, #5b5b5b, #282828);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5b5b5b), color-stop(100%, #282828));
+    background-image: -webkit-linear-gradient(top, #5b5b5b, #282828);
+    background-image: -o-linear-gradient(top, #5b5b5b, #282828);
+    background-image: linear-gradient(#5b5b5b, #282828);
+    border-color: #282828 #282828 hsl(0, 0%, 11%);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.33);
+    -webkit-font-smoothing: antialiased;
+}
+
+tbody > tr{
+    font-weight: 500;
+}
+
+td:first-child{
+    color: #2c80c2;
+    font-size:1.1em;
+    transition: text-decoration 0.5s linear 0s, color 0.5s linear 0s;
+}
+
+td:first-child:hover{
+    color: #27487f;
+    text-decoration:underline;
+}
+
+/**
+*LANDING PAGE DESIGN
+*/
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: table; /*causing problems*/
+    min-height:100%;
+    -webkit-animation: fadein 2s;
+    -moz-animation: fadein 2s;
+    animation: fadein 2s;
+}
+
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+#image_background{
+    margin:0;
+    height:100%;
+    width:100%;
+    position:absolute;
+    background-image: url('img/background_image.jpg');
+    background-repeat: no-repeat;
+    background-size:cover;
+    z-index:-1;
+}
+
+.landing_page_container {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+h1{
+    margin:0;
+    font-size:4em;
+    color:white;
+}
+
+h4{
+    padding-bottom:3vh;
+    color:white;
+}
+
+.zipCodeButton{
+    transition: background-color 0.5s linear 0s, color 0.5s linear 0s;
+}
+
+/* Input Placeholder Transition */
+:hover::-webkit-input-placeholder {
+    opacity: 0.75;
+    -webkit-transition: opacity 0.35s ease-in-out;
+    transition: opacity 0.35s ease-in-out;
+}
+:hover:-moz-placeholder {
+    opacity: 0.75;
+    -moz-transition: opacity 0.35s ease-in-out;
+    transition: opacity 0.35s ease-in-out;
+}
+:hover::-moz-placeholder {
+    opacity: 0.75;
+    -moz-transition: opacity 0.35s ease-in-out;
+    transition: opacity 0.35s ease-in-out;
+}
+:hover:-ms-input-placeholder {
+    opacity: 0.75;
+    -ms-transition: opacity 0.35s ease-in-out;
+    transition: opacity 0.35s ease-in-out;
+}
+
+:focus::-webkit-input-placeholder {
+    opacity: 0;
+    -webkit-transition: opacity 0.35s ease-in-out;
+    transition: opacity 0.35s ease-in-out;
+}
+:focus:-moz-placeholder {
+    opacity: 0;
+    -moz-transition: opacity 0.35s ease-in-out;
+    transition: opacity 0.35s ease-in-out;
+}
+:focus::-moz-placeholder {
+    opacity: 0;
+    -moz-transition: opacity 0.35s ease-in-out;
+    transition: opacity 0.35s ease-in-out;
+}
+:focus:-ms-input-placeholder {
+    opacity: 0;
+    -ms-transition: opacity 0.35s ease-in-out;
+    transition: opacity 0.35s ease-in-out;
+}
+
+/**
+*LANDING PAGE DESIGN END
+*/
