@@ -28,6 +28,24 @@ var totalTweetNum;              // the number of tweets we have pulled from Twit
 
 $(document).ready(function() {
 
+    $(".dropPhotosButton").click(function () {
+        $(".Container1").show();
+        $(".Container2").hide();
+        $(".Container3").hide();
+    });
+
+    $(".dropYouTubeButton").click(function () {
+        $(".Container3").show();
+        $(".Container1").hide();
+        $(".Container2").hide();
+    });
+    $(".droptweetsbutton").click(function () {
+        $(".Container3").show();
+        $(".Container1").hide();
+        $(".Container2").hide();
+    });
+
+
     lat_from_landing = parseFloat(getUrlParameter("lat"));
     long_from_landing = parseFloat(getUrlParameter("long"));
     radius_from_landing = parseInt(getUrlParameter("radius"));
