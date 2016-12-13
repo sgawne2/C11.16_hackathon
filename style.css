@@ -234,26 +234,23 @@ h4{
 }
 
 /**
-*LANDING PAGE DESIGN END
+* INFO.HTML STYLING
 */
 
 .Container1 {
 
 }
 
-.Container2 {
-    height:             30vh;
-    width:              90vw;
-    /*background-color:   pink;*/
+.Container2{
+    width:80vw;
+    margin: 0 auto;
+    position:relative;
+    top:10vh;
 }
 
 .Container3 {
-    height:             30vh;
-    width:              90vw;
-    background-color:   lightyellow;
+    width:80vw;
+    margin:auto;
+    position:relative;
+    top:20vh;
 }
-
-/*table, tr, td {*/
-    /*border:             0.2em solid blue;*/
-
-    /*border:             0.2em solid blue;*/

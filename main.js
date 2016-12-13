@@ -181,7 +181,6 @@ $(document).ready(function(){
 
     function getAndDisplayFirstTweets (Twitter_searchTerm) {
         var photo, picLink;
-        var tweet_storage_array = [];
         tweetNum = 1;
 
         console.log("in function getAndDisplayFirstTweets");
