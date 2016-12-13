@@ -107,10 +107,11 @@ $(document).ready(function(){
         console.log('End of click function');
     });
     // flicker API call begins here
-    
+
       $('.photosButton').click(function(){
+            $(".container1").show();
             imageSearch = $("#imageSearch").val();
-            console.log('click initiated');
+            console.log('click initiated' , imageSearch);
             $.ajax({
                 dataType: 'json',
                 url: "https://api.flickr.com/services/rest?method=flickr.photos.search&api_key=4291af049e7b51ff411bc39565109ce6&format=json&nojsoncallback=1&text=" + imageSearch,

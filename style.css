@@ -82,6 +82,19 @@ iframe {
     frameborder:    0;
 }
 
-#myCarousel{
 
+.headerContainer {
+    background-color: lightgrey;
+    width: 100vw;
+}
+.venueName{
+    text-align: center;
+}
+
+.venueDetails  {
+    text-align: center;
+}
+
+.container1 {
+    display: none;
 }
