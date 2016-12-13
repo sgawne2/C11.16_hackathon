@@ -238,36 +238,38 @@ function flickrButtonClicked() {
     console.log('End of click function');
 }
 
-function getAndDisplayFirstTweets (Twitter_searchTerm) {
-    var photo, picLink;
-    tweetNum = 1;
+ function getAndDisplayFirstTweets (Twitter_searchTerm) {
+        var photo, picLink;
+        tweetNum = 1;
 
-    console.log("in function getAndDisplayFirstTweets");
+        console.log("in function getAndDisplayFirstTweets");
 
-    $.ajax ({
-        dataType:   'json',
-        url:        'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
-        method:     "POST",
-        data: {search_term: Twitter_searchTerm, lat: 34, long: -118, radius: 500},
-        success: function(result) {
-            console.log("result: ", result);
-            console.log('AJAX successfully called');
+        $.ajax ({
+            dataType:   'json',
+            url:        'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
+            method:     "POST",
+            data: {search_term: Twitter_searchTerm, lat: 34, long: -118, radius: 500},
+            success: function(result) {
+                console.log("result: ", result);
+                console.log('AJAX successfully called');
 
-            var array = result.tweets.statuses;
-            var length = array.length;
-            var totalTweetNum = length;
+                var array = result.tweets.statuses;
+                var length = array.length;
+                var totalTweetNum = length;
 
-            for (var j=0; j < length; j++) {
-                console.log("j: " + j);
-                tweet_storage_array[j] = {};
-                tweet_storage_array[j].urlPic = result.tweets.statuses[j].user.profile_image_url;
-                tweet_storage_array[j].twt = result.tweets.statuses[j].text;
+                for (var j = 0; j < length; j++) {
+                    console.log("j: " + j);
+                    tweet_storage_array[j] = {};
+                    tweet_storage_array[j].urlPic = result.tweets.statuses[j].user.profile_image_url;
+                    tweet_storage_array[j].twt = result.tweets.statuses[j].text;
+                }
+                displayTweets();
+                console.log("tweet_storage_array: ", tweet_storage_array);
+
             }
-            displayTweets();
-            console.log("tweet_storage_array: ", tweet_storage_array);
-        }
     });
 }
+
 
 function displayTweets() {
     var length, photo, picLink, tweet;
@@ -293,13 +295,15 @@ function displayTweets() {
         $(".Container2 .twit tbody tr:last-child td:nth-child(2)").append(tweet);
     }
 }
-function displayFollowingTweets () {
-    $("tbody tr").remove();
-    tweetNum += 5;
 
-    if (tweetNum >= totalTweetNum)
+    function displayFollowingTweets () {
+        $("tbody tr").remove();
+        tweetNum += 5;
+
+        if (tweetNum >= totalTweetNum)
         displayTweets();
-}
+    }
+
 
 function displayPrecedingTweets (){
     $("tbody tr").remove();
