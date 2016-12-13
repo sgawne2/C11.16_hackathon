@@ -66,8 +66,7 @@ $(document).ready(function() {
 
     $('.landingPageButton').click(landingPageButtonClicked);
 
-    // flicker API call begins here
-    $('.photosButton').click(flickrButtonClicked);
+
 
     $('.followingTweets').click(displayFollowingTweets);    // clears current tweets and displays the next 5 tweets
     $('.precedingTweets').click(displayPrecedingTweets);    // clears current tweets and displays the preceding 5 tweets
@@ -79,6 +78,8 @@ $(document).ready(function() {
     venue_name = getUrlParameter("name");
     getAndDisplayFirstTweets(venue_name); // call function to get tweets from Twitter API and display on info.html
     getAndDisplayYTVideos(venue_name);  // call function to get YouTube videos from YouTube API and display on info.html
+    // flicker API call begins here
+    getAndDisplayFlickrPhotos(venue_name);
 });
 
 /**
@@ -235,10 +236,10 @@ function zipCodeButtonClicked() {
     console.log('End of click function');
 }
 
-function flickrButtonClicked() {
+function getAndDisplayFlickrPhotos(string) {
     $(".container1").show();
     //imageSearch = $("#imageSearch").val();
-    imageSearch = venue_name;
+    imageSearch = string;
     console.log('click initiated' , imageSearch);
     $.ajax({
         dataType: 'json',
