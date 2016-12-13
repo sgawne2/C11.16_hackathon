@@ -272,3 +272,7 @@ h4{
     position:relative;
     top:10vh;
 }
+.carousel-inner .item .active {
+    height: 100vw;
+
+}
