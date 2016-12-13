@@ -97,36 +97,36 @@ function addPlaceToDom(placeObj) {
 //END GOOGLE PLACES API
 
 
-$(document).ready(function(){
-    initMap(51.4826,0.0077,100000);
+$(document).ready(function() {
+    //initMap(51.4826,0.0077,100000);
     places_list = $('.places-list');
-    $(places_list).on('click', '.mediaButton', function(){
+    getAndDisplayYTVideos ("The Observatory");
+    $(places_list).on('click', '.mediaButton', function () {
         var index = $(this).index('.mediaButton');
         var name = places_array[index].name;
         alert(name);
     });
 
-    $('.autoLocationButton').click(function() {
+    $('.autoLocationButton').click(function () {
         "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC87SYazc5x5nNq7digLxdNnB3riG_eaVc"
     });
 
-    getAndDisplayYTVideos ("The Observatory");  // call function to get YouTube videos from YouTube API and display on info.html
     //getAndDisplayTweets ("Yost Theater");       // call function to get tweets from Twitter API and display on info.html
 
-    $('.zipCodeButton').click(function(){
+    $('.zipCodeButton').click(function () {
         zipcode = $('#zipcode').val();
         radius = $('#radius').val();
         console.log('click initiated');
         $.ajax({
             dataType: 'json',
-            url: 'http://maps.googleapis.com/maps/api/geocode/json?address='+ zipcode,
+            url: 'http://maps.googleapis.com/maps/api/geocode/json?address=' + zipcode,
             method: "POST",
-            success: function(data) {
+            success: function (data) {
                 console.log('AJAX Success function called, with the following result:', data);
                 latitude = data.results[0].geometry.location.lat;
-                longitude= data.results[0].geometry.location.lng;
+                longitude = data.results[0].geometry.location.lng;
                 console.log(data);
-                alert("Lat = "+latitude+"- Long = "+longitude + " - Radius = " +radius);
+                alert("Lat = " + latitude + "- Long = " + longitude + " - Radius = " + radius);
                 initMap(latitude, longitude, radius);
             }
         });
@@ -134,61 +134,65 @@ $(document).ready(function(){
     });
     // flicker API call begins here
 
-      $('.photosButton').click(function(){
-            $(".container1").show();
-            imageSearch = $("#imageSearch").val();
-            console.log('click initiated' , imageSearch);
-            $.ajax({
-                dataType: 'json',
-                url: "https://api.flickr.com/services/rest?method=flickr.photos.search&api_key=4291af049e7b51ff411bc39565109ce6&format=json&nojsoncallback=1&text=" + imageSearch,
-                success: function(result) {
-                    var server = result.photos.photo[0].server;
-                    var photoId = result.photos.photo[0].id;
-                    var secret = result.photos.photo[0].secret;
-                    var image = $("<img>").attr("src", "https://farm1.staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg");
-                    var photosArray = result.photos.photo;
+    $('.photosButton').click(function () {
+        console.log('click initiated', imageSearch);
+        $(".container1").show();
+        imageSearch = $("#imageSearch").val();
+        console.log('click initiated', imageSearch);
+        $.ajax({
+            dataType: 'json',
+            url: "https://api.flickr.com/services/rest?method=flickr.photos.search&api_key=4291af049e7b51ff411bc39565109ce6&format=json&nojsoncallback=1&text=" + imageSearch,
+            success: function (result) {
+                var server = result.photos.photo[0].server;
+                var photoId = result.photos.photo[0].id;
+                var secret = result.photos.photo[0].secret;
+                var image = $("<img>").attr("src", "https://farm1.staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg");
+                var photosArray = result.photos.photo;
+                for (var i = 0; i < 10 && photosArray.length; i++) {
+                    server = result.photos.photo[i].server;
+                    photoId = result.photos.photo[i].id;
+                    secret = result.photos.photo[i].secret;
+                    image = $("<img>").attr("src", "https://farm1.staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg");
 
-                    for (var i = 0; i < 10 && photosArray.length ; i++) {
-                        server = result.photos.photo[i].server;
-                        photoId = result.photos.photo[i].id;
-                        secret = result.photos.photo[i].secret;
-                        image = $("<img>").attr("src", "https://farm1.staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg");
-                        if ( !i ) {
-                            var imageDiv = $("<div>").addClass("item active");
-                            $(".carousel-inner").append(imageDiv);
-                            $(imageDiv).append(image);
-                        }
-                        else{
-                             imageDiv = $("<div>").addClass("item");
-                            $(".carousel-inner").append(imageDiv);
-                            $(imageDiv).append(image);
-                        }
-                        }
-
+                    if (!i) {
+                        var imageDiv = $("<div>").addClass("item active");
+                        $(imageDiv).append(image);
+                        $("#myCarousel .carousel-inner").append(imageDiv);
 
                     }
+                    else {
+                        imageDiv = $("<div>").addClass("item");
+                        $(imageDiv).append(image);
+                        $("#myCarousel .carousel-inner").append(imageDiv);
 
-            });
-            console.log('End of click function');
+                    }
+                }
+                $("#myCarousel").carousel("cycle");
+
+
+            }
+
         });
+        console.log('End of click function');
+    });
 
-    function getAndDisplayTweets (Twitter_searchTerm) {
+    function getAndDisplayTweets(Twitter_searchTerm) {
         var photo, picLink, tweet;
         var tweet_storage_array = [];
         console.log("in function getAndDisplayTweets");
-        $.ajax ({
-            dataType:   'json',
-            url:        'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
-            method:     "POST",
+        $.ajax({
+            dataType: 'json',
+            url: 'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
+            method: "POST",
             data: {search_term: Twitter_searchTerm, lat: 34, long: -118, radius: 500},
-            success: function(result) {
+            success: function (result) {
                 console.log("result: ", result);
                 console.log('AJAX successfully called');
 
                 var array = result.tweets.statuses;
                 var length = array.length;
 
-                for (var j=0; j < length; j++) {
+                for (var j = 0; j < length; j++) {
                     console.log("j: " + j);
                     tweet_storage_array[j] = {};
                     tweet_storage_array[j].urlPic = result.tweets.statuses[j].user.profile_image_url;
@@ -200,14 +204,14 @@ $(document).ready(function(){
         });
     }
 
-    function displayTweets (tweet_array) {
+    function displayTweets(tweet_array) {
         var length;
 
         length = tweet_array.length;
-        for (var w=0; w < 5 ; w++) {
+        for (var w = 0; w < 5; w++) {
             $(".Container2").append($("<tr>"));             // append table row
 
-            for (var v=0; v < 2; ++v) {                     // append 2 columns to the row just created
+            for (var v = 0; v < 2; ++v) {                     // append 2 columns to the row just created
                 $(".Container2 tr:last-child").append($("<td>"));
             }
 
@@ -222,74 +226,53 @@ $(document).ready(function(){
         }
     }
 
-    function getAndDisplayYTVideos (YT_searchTerm) {
+
+    function getAndDisplayYTVideos(YT_searchTerm) {
+        console.log("youtube function called ");
         var title, id_video, vid;
         console.log("in function getAndDisplayYTVideos");
-
-        $.ajax ({
-            dataType:   'json',
-            url:        'http://s-apis.learningfuze.com/hackathon/youtube/search.php?',
-            method:     "POST",
+        //$(".Container3").hide();
+        $.ajax({
+            dataType: 'json',
+            url: 'http://s-apis.learningfuze.com/hackathon/youtube/search.php?',
+            method: "POST",
             data: {q: YT_searchTerm, maxResults: 5},
-            success: function(result) {
+            success: function (result) {
                 console.log('AJAX successfully called');
                 console.log("result: ", result);
 
                 var array = result.video;
                 var length = array.length;
 
-                for (var j=0; j < length; j++) {
+                for (var j = 0; j < length; j++) {
                     console.log("j: " + j);
 
                     title = result.video[j].title;
-                    $(".Container3").append(title);
-                    $(".Container3").append("<br>");
-
                     id_video = result.video[j].id;
                     console.log("id: ", id_video);
 
                     vid = $("<iframe>", {
                         src: "https://www.youtube.com/embed/" + id_video
-                    });
 
-                    $(".Container3").append(vid);
-                    $(".Container3").append("<br>");
+                    });
+                    if (!j) {
+                        var youTubeDiv = $("<div>").addClass("item active");
+                        $("#myCarousel2 .carousel-inner").append(youTubeDiv);
+                        $(youTubeDiv).append(vid);
+                    }
+                    else {
+                        youTubeDiv = $("<div>").addClass("item");
+                        $("#myCarousel2 .carousel-inner").append(youTubeDiv);
+                        $(youTubeDiv).append(vid);
+                    }
+
+
+
                 }
             }
         });
     }
-
-    $('.youTubeButton').click(function() {
-        console.log("button clicked");
-        $.ajax({
-            dataType:   'json',
-            url:    'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
-            method: "POST",
-            data: {search_term: "Fuck", lat: 35, long: -120, radius: 5000 },
-            success: function(result) {
-                console.log("result: ", result);
-                var array = result.tweets.statuses;
-                var length = array.length;
-                var abc, def, ghi;
-
-                console.log('AJAX successfully called');
-
-                for (var j=0; j < length; j++) {
-                    console.log("j: " + j);
-                    abc = result.tweets.statuses[j].text;
-                    $("main").append(abc);
-                    $("main").append("<br>");
-
-                    def = result.tweets.statuses[j].user.profile_image_url;
-                    console.log("def: ", def);
-
-                    ghi = $("<img>",{src: def});
-                    $("main").append(ghi);
-                    $("main").append("<br>");
-                }
-            }
-        });
-    });
 });
+
 
 
