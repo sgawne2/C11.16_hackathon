@@ -13,11 +13,6 @@ button {
     margin: auto;
 }
 
-#map {
-    height: 400px;
-    width: 700px;
-}
-
 .container{
      width:80vw;
  }
@@ -31,6 +26,7 @@ a:link,
 a:visited,
 a:active{
   text-decoration:none;
+  cursor: hand;
 }
 
 /*.container{*/
@@ -49,6 +45,7 @@ a:active{
          * element that contains the map. */
 #map {
     width: 80vw;
+    height:60vh;
     margin: 0 auto;
     position:relative;
     top: 10vh;
@@ -69,6 +66,10 @@ iframe {
     display: inline-block;
 }
 
+.table-responsive{
+    -webkit-border-radius: 2px;
+    -webkit-box-shadow: 2px 5px 10px #dddddd;
+}
 
 .headerContainer {
     background-color: lightgrey;
@@ -125,12 +126,19 @@ tbody > tr{
 td:first-child{
     color: #2c80c2;
     font-size:1.1em;
-    transition: text-decoration 0.5s linear 0s, color 0.5s linear 0s;
 }
 
 td:first-child:hover{
-    color: #27487f;
+    color: #143f4e;
     text-decoration:underline;
+}
+
+.boldTitle{
+    font-weight:900;
+}
+
+.lightTitle{
+    font-weight:400;
 }
 
 /**
@@ -142,7 +150,7 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
-    display: table; /*causing problems*/
+    display: table;
     min-height:100%;
     -webkit-animation: fadein 2s;
     -moz-animation: fadein 2s;
@@ -247,6 +255,7 @@ h4{
 
 
 
-table, tr, td {
+/*table, tr, td {*/
     /*border:             0.2em solid blue;*/
-}
+
+    /*border:             0.2em solid blue;*/
