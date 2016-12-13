@@ -1,6 +1,11 @@
 /* Sean, Miles, Mike, Vernon    Music Venue     Hack-a-thon     December 12-13, 2016    */
 
 //START GOOGLE PLACES API
+
+/**
+ *  https://developers.google.com/maps/documentation/javascript/places
+ */
+
 var zipcode;
 var imageSearch;
 var map;
@@ -8,6 +13,12 @@ var infowindow;
 var places_array = [];
 var places_list;
 
+/**
+ *
+ * @param lat
+ * @param long
+ * @param radius
+ */
 function initMap(lat, long, radius) {
     // var lat = 33;
     // var long = -117;
@@ -60,6 +71,7 @@ function createMarker(place) {
 
 function populateList() {
     var len = places_array.length;
+    $(places_list).html("");
     for(var i = 0; i < len; i++) {
         addPlaceToDom(places_array[i]);
     }
@@ -74,21 +86,32 @@ function addPlaceToDom(placeObj) {
         hours = placeObj.opening_hours.open_now;
     }
     var tr = $('<tr>');
-    var delete_button = $('<button type="button" class="btn btn-info">Images</button>');
+    var media_button = $('<button type="button" class="btn btn-info mediaButton">Images</button>');
     tr.append( $('<td>').text(name) );
     tr.append( $('<td>').text(vicinity) );
     tr.append( $('<td>').text(hours) );
     tr.append( $('<td>').text(rating) );
-    tr.append( $('<td>').append(delete_button) );
+    tr.append( $('<td>').append(media_button) );
     tr.appendTo(places_list);
 }
 //END GOOGLE PLACES API
 
 
 $(document).ready(function(){
+    initMap(51.4826,0.0077,100000);
+    places_list = $('.places-list');
+    $(places_list).on('click', '.mediaButton', function(){
+        var index = $(this).index('.mediaButton');
+        var name = places_array[index].name;
+        alert(name);
+    });
+
+    $('.autoLocationButton').click(function() {
+        "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC87SYazc5x5nNq7digLxdNnB3riG_eaVc"
+    });
 
     getAndDisplayYTVideos ("The Observatory");  // call function to get YouTube videos from YouTube API and display on info.html
-    getAndDisplayTweets ("Yost Theater");       // call function to get tweets from Twitter API and display on info.html
+    //getAndDisplayTweets ("Yost Theater");       // call function to get tweets from Twitter API and display on info.html
 
     $('.zipCodeButton').click(function(){
         zipcode = $('#zipcode').val();
@@ -149,7 +172,7 @@ $(document).ready(function(){
             console.log('End of click function');
         });
 
-    function getTweets (Twitter_searchTerm) {
+    function getAndDisplayTweets (Twitter_searchTerm) {
         var photo, picLink, tweet;
         var tweet_storage_array = [];
         console.log("in function getAndDisplayTweets");
@@ -236,8 +259,6 @@ $(document).ready(function(){
         });
     }
 
-    //initMap();
-    places_list = $('.places-list');
     $('.youTubeButton').click(function() {
         console.log("button clicked");
         $.ajax({
