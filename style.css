@@ -240,7 +240,7 @@ h4{
 *LANDING PAGE DESIGN END
 */
 
-.Container1 {
+.Container1  {
     height: 30vh;
     width: 90vw;
 
@@ -248,9 +248,12 @@ h4{
 }
 
 .Container2 {
-    height:             30vh;
-    width:              90vw;
-    /*background-color:   pink;*/
+    height: 30vh;
+    width:  90vw;
+    display: none;
+}
+.Container3 {
+    display:none;
 }
 
 
