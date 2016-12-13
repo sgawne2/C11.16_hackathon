@@ -18,6 +18,10 @@ var infowindow;
 var places_array = [];
 var places_list;
 
+var tweet_storage_array = [];   // where I store all the tweets for the current venue
+var tweetNum;                   // which Tweet number we are on, the 1st of five
+var totalTweetNum;              // the number of tweets we have pulled from Twitter API for the current venue
+
 $(document).ready(function(){
     //initMap(51.4826,0.0077,100000);
 
@@ -44,14 +48,18 @@ $(document).ready(function(){
     // flicker API call begins here
     $('.photosButton').click(flickrButtonClicked);
 
+    $('.followingTweets').click(displayFollowingTweets);    // clears current tweets and displays the next 5 tweets
+    $('.precedingTweets').click(displayPrecedingTweets);    // clears current tweets and displays the preceding 5 tweets
+
 
     $('.autoLocationButton').click(function() {
         "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC87SYazc5x5nNq7digLxdNnB3riG_eaVc"
     });
     venue_name = getUrlParameter("name");
+    getAndDisplayFirstTweets(venue_name); // call function to get tweets from Twitter API and display on info.html
     getAndDisplayYTVideos(venue_name);  // call function to get YouTube videos from YouTube API and display on info.html
-    getTweets(venue_name);       // call function to get tweets from Twitter API and display on info.html
 });
+
 
 /**
  *
@@ -171,6 +179,7 @@ function landingPageButtonClicked() {
     console.log('End of click function');
 }
 
+
 function zipCodeButtonClicked() {
         zipcode = input_zipcode.val();
         radius = $('#radius').val();
@@ -227,90 +236,136 @@ function flickrButtonClicked() {
     console.log('End of click function');
 }
 
-function getTweets (Twitter_searchTerm) {
-    var photo, picLink, tweet;
-    var tweet_storage_array = [];
+    function getAndDisplayFirstTweets (Twitter_searchTerm) {
+        var photo, picLink;
+        //var tweet_storage_array = [];
+        tweetNum = 1;
 
-    console.log("in function getAndDisplayTweets");
-    $.ajax ({
-        dataType:   'json',
-        url:        'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
-        method:     "POST",
-        data: {search_term: Twitter_searchTerm, lat: 34, long: -118, radius: 500},
-        success: function(result) {
-            console.log("result: ", result);
-            console.log('AJAX successfully called');
+        console.log("in function getAndDisplayFirstTweets");
 
-            var array = result.tweets.statuses;
-            var length = array.length;
+        $.ajax ({
+            dataType:   'json',
+            url:        'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
+            method:     "POST",
+            data: {search_term: Twitter_searchTerm, lat: 34, long: -118, radius: 500},
+            success: function(result) {
+                console.log("result: ", result);
+                console.log('AJAX successfully called');
 
-            for (var j=0; j < length; j++) {
-                console.log("j: " + j);
-                tweet_storage_array[j] = {};
-                tweet_storage_array[j].urlPic = result.tweets.statuses[j].user.profile_image_url;
-                tweet_storage_array[j].twt = result.tweets.statuses[j].text;
+                var array = result.tweets.statuses;
+                var length = array.length;
+                var totalTweetNum = length;
+
+                for (var j=0; j < length; j++) {
+                    console.log("j: " + j);
+                    tweet_storage_array[j] = {};
+                    tweet_storage_array[j].urlPic = result.tweets.statuses[j].user.profile_image_url;
+                    tweet_storage_array[j].twt = result.tweets.statuses[j].text;
+                }
+                displayTweets();
+                console.log("tweet_storage_array: ", tweet_storage_array);
             }
-            displayTweets(tweet_storage_array);
-            console.log("tweet_storage_array: ", tweet_storage_array);
-        }
-    });
-}
+        });
+    }
 
-function displayTweets (tweet_array) {
-    var length;
+function displayTweets() {
+    var length, photo, picLink, tweet;
 
-    length = tweet_array.length;
-    for (var w=0; w < 5 ; w++) {
-        $(".Container2").append($("<tr>"));             // append table row
+    $(".Container2 .twit thead tr th:nth-child(3)").text(tweetNum);
+    $(".Container2 .twit thead tr th:nth-child(5)").text(tweetNum+4);
+    $(".Container2 .twit thead tr th:nth-child(7)").text(totalTweetNum);
+
+    for (var w=tweetNum - 1; w < tweetNum + 4 ; w++) {
+        $(".Container2 .twit tbody").append($("<tr>"));             // append table row
 
         for (var v=0; v < 2; ++v) {                     // append 2 columns to the row just created
-            $(".Container2 tr:last-child").append($("<td>"));
+            $(".Container2 .twit tbody tr:last-child").append($("<td>"));
         }
 
-        picLink = tweet_array[w].urlPic;
+        picLink = tweet_storage_array[w].urlPic;
         photo = $("<img>", {
             src: picLink
         });
-        $(".Container2 tr:last-child td:first-child").append(photo);
+        $(".Container2 .twit tbody tr:last-child td:first-child").append(photo);
 
-        tweet = tweet_array[w].twt;
-        $(".Container2 tr:last-child td:nth-child(2)").append(tweet);
+        tweet = tweet_storage_array[w].twt;
+        $(".Container2 .twit tbody tr:last-child td:nth-child(2)").append(tweet);
     }
 }
+    function displayFollowingTweets () {
+        $("tbody tr").remove();
+        tweetNum += 5;
+        displayTweets();
+    }
 
-function getAndDisplayYTVideos (YT_searchTerm) {
-    var title, id_video, vid;
-    console.log("in function getAndDisplayYTVideos");
+    function displayPrecedingTweets (){
+        $("tbody tr").remove();
+        tweetNum -= 5;
+        displayTweets();
+    }
 
-    $.ajax ({
-        dataType:   'json',
-        url:        'http://s-apis.learningfuze.com/hackathon/youtube/search.php?',
-        method:     "POST",
-        data: {q: YT_searchTerm, maxResults: 5},
-        success: function(result) {
-            console.log('AJAX successfully called');
-            console.log("result: ", result);
+    function getAndDisplayYTVideos (YT_searchTerm) {
+        var title, id_video, vid;
+        console.log("in function getAndDisplayYTVideos");
 
-            var array = result.video;
-            var length = array.length;
+        $.ajax ({
+            dataType:   'json',
+            url:        'http://s-apis.learningfuze.com/hackathon/youtube/search.php?',
+            method:     "POST",
+            data: {q: YT_searchTerm, maxResults: 5},
+            success: function(result) {
+                console.log('AJAX successfully called');
+                console.log("result: ", result);
 
-            for (var j=0; j < length; j++) {
-                console.log("j: " + j);
+                var array = result.video;
+                var length = array.length;
 
-                title = result.video[j].title;
-                $(".Container3").append(title);
-                $(".Container3").append("<br>");
+                for (var j=0; j < length; j++) {
+                    console.log("j: " + j);
 
-                id_video = result.video[j].id;
-                console.log("id: ", id_video);
+                    title = result.video[j].title;
+                    $(".Container3").append(title);
+                    $(".Container3").append("<br>");
 
-                vid = $("<iframe>", {
-                    src: "https://www.youtube.com/embed/" + id_video
-                });
+                    id_video = result.video[j].id;
+                    console.log("id: ", id_video);
 
-                $(".Container3").append(vid);
-                $(".Container3").append("<br>");
+                    vid = $("<iframe>", {
+                        src: "https://www.youtube.com/embed/" + id_video
+                    });
+
+                    $(".Container3").append(vid);
+                    $(".Container3").append("<br>");
+                }
             }
+        });
+    }
+
+        function getTweets (Twitter_searchTerm) {
+            var photo, picLink, tweet;
+            var tweet_storage_array = [];
+
+            console.log("in function getAndDisplayTweets");
+            $.ajax ({
+                dataType:   'json',
+                url:        'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
+                method:     "POST",
+                data: {search_term: Twitter_searchTerm, lat: 34, long: -118, radius: 500},
+                success: function(result) {
+                    console.log("result: ", result);
+                    console.log('AJAX successfully called');
+
+                    var array = result.tweets.statuses;
+                    var length = array.length;
+
+                    for (var j=0; j < length; j++) {
+                        console.log("j: " + j);
+                        tweet_storage_array[j] = {};
+                        tweet_storage_array[j].urlPic = result.tweets.statuses[j].user.profile_image_url;
+                        tweet_storage_array[j].twt = result.tweets.statuses[j].text;
+                    }
+                    displayTweets(tweet_storage_array);
+                    console.log("tweet_storage_array: ", tweet_storage_array);
+                }
+            });
         }
-    });
-}
