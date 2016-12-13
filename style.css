@@ -80,8 +80,29 @@ tbody>tr,
 
 iframe {
     frameborder:    0;
+    display:        inline-block;
 }
 
 #myCarousel{
 
+}
+
+.Container1 {
+
+}
+
+.Container2 {
+    height:             30vh;
+    width:              90vw;
+    /*background-color:   pink;*/
+}
+
+.Container3 {
+    height:             30vh;
+    width:              90vw;
+    background-color:   lightyellow;
+}
+
+table, tr, td {
+    border:             0.2em solid blue;
 }
