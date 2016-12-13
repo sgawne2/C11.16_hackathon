@@ -1,5 +1,3 @@
-
-
 /* Sean, Miles, Mike, Vernon    Music Venue     Hack-a-thon     December 12-13, 2016    */
 
 //START GOOGLE PLACES API
@@ -8,24 +6,27 @@
  *  https://developers.google.com/maps/documentation/javascript/places
  */
 
+//html elements
 var input_zipcode;
 var imageSearch;
+var places_list;
+
+//url parameters
 var venue_name;
 var lat_from_landing;
 var long_from_landing;
 var radius_from_landing;
 
+//google maps variables
 var map;
 var infowindow;
 var places_array = [];
-var places_list;
 
 var tweet_storage_array = [];   // where I store all the tweets for the current venue
 var tweetNum;                   // which Tweet number we are on, the 1st of five
 var totalTweetNum;              // the number of tweets we have pulled from Twitter API for the current venue
 
-$(document).ready(function(){
-    //initMap(51.4826,0.0077,100000);
+$(document).ready(function() {
 
     lat_from_landing = parseFloat(getUrlParameter("lat"));
     long_from_landing = parseFloat(getUrlParameter("long"));
@@ -62,9 +63,19 @@ $(document).ready(function(){
     getAndDisplayYTVideos(venue_name);  // call function to get YouTube videos from YouTube API and display on info.html
 });
 
+/**
+ * Converts miles to meters
+ * @param miles
+ * @returns {number}
+ */
+function milesToMeters(miles) {
+    var meters = miles * 1609.34;
+    console.log(miles + " miles to " + meters + " meters");
+    return meters;
+}
 
 /**
- *
+ * Creates a Google Map element inside the #map div and
  * @param lat
  * @param long
  * @param radius
@@ -75,7 +86,11 @@ function initMap(lat, long, radius) {
     //var radius = 50000;
     //radius in meters
     var keyword = "music venues";
-
+    if (!radius) {
+        radius = 50000;
+    } else {
+        radius = milesToMeters(radius);
+    }
     var original_location = {lat: lat, lng: long};
 
     //var original_location = {lat: -33.867, lng: 151.195};
@@ -347,37 +362,7 @@ function getAndDisplayYTVideos (YT_searchTerm) {
                     $("#myCarousel2 .carousel-inner").append(youTubeDiv);
                     $(youTubeDiv).append(vid);
                 }
-
             }
-        }
-    });
-}
-
-function getTweets (Twitter_searchTerm) {
-    var photo, picLink, tweet;
-    var tweet_storage_array = [];
-
-    console.log("in function getAndDisplayTweets");
-    $.ajax ({
-        dataType:   'json',
-        url:        'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
-        method:     "POST",
-        data: {search_term: Twitter_searchTerm, lat: 34, long: -118, radius: 500},
-        success: function(result) {
-            console.log("result: ", result);
-            console.log('AJAX successfully called');
-
-            var array = result.tweets.statuses;
-            var length = array.length;
-
-            for (var j=0; j < length; j++) {
-                console.log("j: " + j);
-                tweet_storage_array[j] = {};
-                tweet_storage_array[j].urlPic = result.tweets.statuses[j].user.profile_image_url;
-                tweet_storage_array[j].twt = result.tweets.statuses[j].text;
-            }
-            displayTweets(tweet_storage_array);
-            console.log("tweet_storage_array: ", tweet_storage_array);
         }
     });
 }
