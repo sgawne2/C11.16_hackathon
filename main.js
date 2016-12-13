@@ -238,7 +238,6 @@ function flickrButtonClicked() {
 
     function getAndDisplayFirstTweets (Twitter_searchTerm) {
         var photo, picLink;
-        //var tweet_storage_array = [];
         tweetNum = 1;
 
         console.log("in function getAndDisplayFirstTweets");
@@ -295,6 +294,8 @@ function displayTweets() {
     function displayFollowingTweets () {
         $("tbody tr").remove();
         tweetNum += 5;
+
+        if (tweetNum >= totalTweetNum)
         displayTweets();
     }
 
