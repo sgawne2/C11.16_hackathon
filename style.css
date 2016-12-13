@@ -8,7 +8,7 @@ button {
 }
 
 .container{
-    width:90vw;
+    width:80vw;
 }
 
 .photosButton > a{
@@ -42,3 +42,22 @@ a:active{
     width:60vw;
     margin: 0 auto;
 }
+
+/* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+#map {
+    height: 400px;
+    width: 700px;
+    margin: 0 auto;
+}
+
+thead > tr{
+    background-color: #404040;
+    color:white;
+}
+
+tbody>tr,
+.btn-info{
+    transition: background-color 0.5s linear 0s, color 0.5s linear 0s;
+}
+
