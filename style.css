@@ -7,6 +7,16 @@ button {
     margin: auto;
 }
 
+<<<<<<< HEAD
+.inlineBlock {
+    display:    inline-block;
+}
+
+#map {
+    height: 400px;
+    width: 700px;
+}
+=======
 .container{
     width:80vw;
 }
@@ -70,3 +80,4 @@ iframe {
     frameborder:    0;
 }
 
+>>>>>>> cd7b82d8d9418801b09b4ebcace2db77a3a219d3
