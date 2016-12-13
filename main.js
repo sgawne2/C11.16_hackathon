@@ -112,7 +112,7 @@ $(document).ready(function(){
     });
 
     getAndDisplayYTVideos ("The Observatory");  // call function to get YouTube videos from YouTube API and display on info.html
-    getAndDisplayTweets ("Yost Theater");       // call function to get tweets from Twitter API and display on info.html
+    //getAndDisplayTweets ("Yost Theater");       // call function to get tweets from Twitter API and display on info.html
 
     $('.zipCodeButton').click(function(){
         zipcode = $('#zipcode').val();
@@ -172,7 +172,7 @@ $(document).ready(function(){
             console.log('End of click function');
         });
 
-    function getTweets (Twitter_searchTerm) {
+    function getAndDisplayTweets (Twitter_searchTerm) {
         var photo, picLink, tweet;
         var tweet_storage_array = [];
 
