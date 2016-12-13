@@ -61,3 +61,12 @@ tbody>tr,
     transition: background-color 0.5s linear 0s, color 0.5s linear 0s;
 }
 
+
+/*.inlineBlock {*/
+    /*display:    inline-block;*/
+/*}*/
+
+iframe {
+    frameborder:    0;
+}
+
