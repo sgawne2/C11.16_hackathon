@@ -7,6 +7,38 @@ button {
     margin: auto;
 }
 
-.inlineBlock {
-    display:    inline-block;
+.container{
+    width:90vw;
 }
+
+.photosButton > a{
+    color:white;
+}
+
+a:hover{
+  text-decoration:none;
+}
+
+a:link{
+  text-decoration:none;
+}
+
+a:visited{
+    text-decoration:none;
+}
+
+a:active{
+    text-decoration:none;
+}
+
+.formContainer{
+    width:60vw;
+    margin:auto;
+}
+
+/*.container{*/
+/*}*/
+
+/*.form-group{*/
+    /*margin:0 auto;*/
+/*}*/
