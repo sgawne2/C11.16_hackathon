@@ -75,13 +75,28 @@ $(document).ready(function() {
     $('.precedingTweets').click(displayPrecedingTweets);    // clears current tweets and displays the preceding 5 tweets
 
     $('.autoLocationButton').click(function() {
-        "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC87SYazc5x5nNq7digLxdNnB3riG_eaVc"
+        radius = null;
+        $.ajax({
+            dataType: 'json',
+            url: 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC87SYazc5x5nNq7digLxdNnB3riG_eaVc',
+            method: "POST",
+            success: function(data) {
+                console.log('AJAX Success function called, with the following result:', data);
+                latitude = data.location.lat;
+                longitude= data.location.lng;
+                console.log(data);
+                console.log("Lat = "+latitude+"- Long = "+longitude + " - Radius = " +radius);
+                document.location.href = "index.html?lat=" + latitude + "&long=" + longitude + "&radius=" + radius;
+            }
+        });
+        console.log('End of click function');
+
     });
     venue_name = getUrlParameter("name");
     getAndDisplayFirstTweets(venue_name); // call function to get tweets from Twitter API and display on info.html
     getAndDisplayYTVideos(venue_name);  // call function to get YouTube videos from YouTube API and display on info.html
     // flicker API call begins here
-    //getAndDisplayFlickrPhotos(venue_name);
+    getAndDisplayFlickrPhotos(venue_name);
 });
 
 /**
