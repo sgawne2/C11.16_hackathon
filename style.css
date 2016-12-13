@@ -94,7 +94,15 @@ iframe {
 .venueDetails  {
     text-align: center;
 }
+.venueDetails ul li {
+    list-style-type: none;
+
+}
 
 .container1 {
     display: none;
+}
+.carousel-inner{
+    height: 400px;
+    width: 100vw;
 }
