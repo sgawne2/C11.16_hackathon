@@ -7,6 +7,7 @@ button {
     margin: auto;
 }
 
+<<<<<<< HEAD
 .inlineBlock {
     display:    inline-block;
 }
@@ -15,3 +16,68 @@ button {
     height: 400px;
     width: 700px;
 }
+=======
+.container{
+    width:80vw;
+}
+
+.photosButton > a{
+    color:white;
+}
+
+a:hover{
+  text-decoration:none;
+}
+
+a:link{
+  text-decoration:none;
+}
+
+a:visited{
+    text-decoration:none;
+}
+
+a:active{
+    text-decoration:none;
+}
+
+/*.container{*/
+/*}*/
+
+/*.form-group{*/
+    /*margin:0 auto;*/
+/*}*/
+
+.form-inline{
+    width:60vw;
+    margin: 0 auto;
+}
+
+/* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+#map {
+    height: 400px;
+    width: 700px;
+    margin: 0 auto;
+}
+
+thead > tr{
+    background-color: #404040;
+    color:white;
+}
+
+tbody>tr,
+.btn-info{
+    transition: background-color 0.5s linear 0s, color 0.5s linear 0s;
+}
+
+
+/*.inlineBlock {*/
+    /*display:    inline-block;*/
+/*}*/
+
+iframe {
+    frameborder:    0;
+}
+
+>>>>>>> cd7b82d8d9418801b09b4ebcace2db77a3a219d3
