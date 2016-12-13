@@ -39,10 +39,10 @@ $(document).ready(function() {
         $(".Container1").hide();
         $(".Container2").hide();
     });
-    $(".droptweetsbutton").click(function () {
-        $(".Container3").show();
+    $(".dropTweetsButton").click(function () {
+        $(".Container2").show();
         $(".Container1").hide();
-        $(".Container2").hide();
+        $(".Container3").hide();
     });
 
 
