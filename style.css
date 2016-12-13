@@ -7,16 +7,18 @@ button {
     margin: auto;
 }
 
-<<<<<<< HEAD
-.inlineBlock {
-    display:    inline-block;
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    width: 70%;
+    margin: auto;
 }
 
 #map {
     height: 400px;
     width: 700px;
 }
-=======
+
 .container{
     width:80vw;
 }
@@ -80,4 +82,6 @@ iframe {
     frameborder:    0;
 }
 
->>>>>>> cd7b82d8d9418801b09b4ebcace2db77a3a219d3
+#myCarousel{
+    display: none;
+}

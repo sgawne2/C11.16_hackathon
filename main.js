@@ -125,10 +125,22 @@ $(document).ready(function(){
                         server = result.photos.photo[i].server;
                         photoId = result.photos.photo[i].id;
                         secret = result.photos.photo[i].secret;
-                        var image = $("<img>").attr("src", "https://farm1.staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg");
-                        $('body').append(image);
+                        image = $("<img>").attr("src", "https://farm1.staticflickr.com/" + server + "/" + photoId + "_" + secret + ".jpg");
+                        if ( !i ) {
+                            var imageDiv = $("<div>").addClass("item active");
+                            $(".carousel-inner").append(imageDiv);
+                            $(imageDiv).append(image);
+                        }
+                        else{
+                             imageDiv = $("<div>").addClass("item");
+                            $(".carousel-inner").append(imageDiv);
+                            $(imageDiv).append(image);
+                        }
+                        }
+
+
                     }
-                }
+
             });
             console.log('End of click function');
         });
