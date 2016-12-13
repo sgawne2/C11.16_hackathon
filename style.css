@@ -71,33 +71,6 @@ iframe {
     -webkit-box-shadow: 2px 5px 10px #dddddd;
 }
 
-.headerContainer {
-    background-color: lightgrey;
-    width: 100vw;
-}
-.venueName{
-    text-align: center;
-}
-
-.venueDetails  {
-    text-align: center;
-}
-.venueDetails ul li {
-    list-style-type: none;
-
-}
-
-.container1 {
-    display: none;
-}
-.container3{
-    display: none;
-}
-.carousel-inner{
-    height: 400px;
-    width: 100vw;
-}
-
 .panel-default{
     padding:0;
     position:relative;
@@ -240,26 +213,60 @@ h4{
 * INFO.HTML STYLING
 */
 
-.Container1 {
-    height: 30vh;
-    width: 90vw;
-
-
+.headerContainer {
+    width: 100vw;
+    height:28vh;
+    background-color:gray;
+}
+.venueName > h1{
+    text-align: center;
+    color:black;
+    position:relative;
+    top:5vh;
+    font-size:3em;
 }
 
-.Container2{
-    width:80vw;
+.venueDetails  {
+    text-align: center;
+    font-size:1.2em;
+    position:relative;
+    top:6vh;
+    color:black;
+}
+.venueDetails ul li {
+    list-style-type: none;
+}
+
+.carousel-inner{
+    height: 400px;
+    width: 100vw;
+}
+
+.container1 {
+    height: 30vw;
+    width: 90vw;
     margin: 0 auto;
     position:relative;
     top:10vh;
+    border-radius: 2vw;
+    overflow: hidden;
+}
+
+.Container2{
+    width:75vw;
+    margin: 0 auto;
+    position:relative;
+    top:20vh;
 }
 
 .Container3 {
     width:80vw;
     margin:auto;
     position:relative;
-    top:20vh;
+    top:60vh;
 }
 
-
-
+.dropdown{
+    position:relative;
+    top:10vh;
+}
