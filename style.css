@@ -261,11 +261,15 @@ h4{
 }
 
 .Container3 {
+<<<<<<< HEAD
+    display: none;
+=======
     width:80vw;
     margin:auto;
     position:relative;
     top:60vh;
     display:none;
+>>>>>>> 01a2310e52b930c40f409798cb3021a155e659a1
 }
 
 .dropdown{

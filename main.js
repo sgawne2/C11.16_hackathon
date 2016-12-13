@@ -1,5 +1,3 @@
-
-
 /* Sean, Miles, Mike, Vernon    Music Venue     Hack-a-thon     December 12-13, 2016    */
 
 //START GOOGLE PLACES API
@@ -8,25 +6,29 @@
  *  https://developers.google.com/maps/documentation/javascript/places
  */
 
+//html elements
 var input_zipcode;
 var imageSearch;
+var places_list;
+
+//url parameters
 var venue_name;
 var lat_from_landing;
 var long_from_landing;
 var radius_from_landing;
 
+//google maps variables
 var map;
 var infowindow;
 var places_array = [];
-var places_list;
 
 var tweet_storage_array = [];   // where I store all the tweets for the current venue
 var tweetNum;                   // which Tweet number we are on, the 1st of five
 var totalTweetNum;              // the number of tweets we have pulled from Twitter API for the current venue
-
 var YT_num = 1;
 
-$(document).ready(function(){
+$(document).ready(function() {
+
     //initMap(51.4826,0.0077,100000);
 
     $(".dropPhotosButton").click(function () {
@@ -67,8 +69,7 @@ $(document).ready(function(){
 
     $('.landingPageButton').click(landingPageButtonClicked);
 
-    // flicker API call begins here
-    $('.photosButton').click(flickrButtonClicked);
+
 
     $('.followingTweets').click(displayFollowingTweets);    // clears current tweets and displays the next 5 tweets
     $('.precedingTweets').click(displayPrecedingTweets);    // clears current tweets and displays the preceding 5 tweets
@@ -79,11 +80,23 @@ $(document).ready(function(){
     venue_name = getUrlParameter("name");
     getAndDisplayFirstTweets(venue_name); // call function to get tweets from Twitter API and display on info.html
     getAndDisplayYTVideos(venue_name);  // call function to get YouTube videos from YouTube API and display on info.html
+    // flicker API call begins here
+    getAndDisplayFlickrPhotos(venue_name);
 });
 
+/**
+ * Converts miles to meters
+ * @param miles
+ * @returns {number}
+ */
+function milesToMeters(miles) {
+    var meters = miles * 1609.34;
+    console.log(miles + " miles to " + meters + " meters");
+    return meters;
+}
 
 /**
- *
+ * Creates a Google Map element inside the #map div and
  * @param lat
  * @param long
  * @param radius
@@ -94,7 +107,11 @@ function initMap(lat, long, radius) {
     //var radius = 50000;
     //radius in meters
     var keyword = "music venues";
-
+    if (!radius) {
+        radius = 50000;
+    } else {
+        radius = milesToMeters(radius);
+    }
     var original_location = {lat: lat, lng: long};
 
     //var original_location = {lat: -33.867, lng: 151.195};
@@ -221,10 +238,10 @@ function zipCodeButtonClicked() {
     console.log('End of click function');
 }
 
-function flickrButtonClicked() {
+function getAndDisplayFlickrPhotos(string) {
     $(".container1").show();
     //imageSearch = $("#imageSearch").val();
-    imageSearch = venue_name;
+    imageSearch = string;
     console.log('click initiated' , imageSearch);
     $.ajax({
         dataType: 'json',
@@ -354,19 +371,19 @@ function getAndDisplayYTVideos (YT_searchTerm) {
     var title, id_video, vid;
     console.log("in function getAndDisplayYTVideos");
 
-    $.ajax ({
-        dataType:   'json',
-        url:        'http://s-apis.learningfuze.com/hackathon/youtube/search.php?',
-        method:     "POST",
+    $.ajax({
+        dataType: 'json',
+        url: 'http://s-apis.learningfuze.com/hackathon/youtube/search.php?',
+        method: "POST",
         data: {q: YT_searchTerm, maxResults: 5},
-        success: function(result) {
+        success: function (result) {
             console.log('AJAX successfully called');
             console.log("result: ", result);
 
             var array = result.video;
             // var length = array.length;
 
-            for (var j=0; j < YT_num; j++) {
+            for (var j = 0; j < YT_num; j++) {
                 console.log("j: " + j);
 
                 title = result.video[j].title;
@@ -390,7 +407,3 @@ function getAndDisplayYTVideos (YT_searchTerm) {
         }
     });
 }
-
-
-
-
