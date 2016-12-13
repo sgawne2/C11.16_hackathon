@@ -10,3 +10,7 @@ button {
 .inlineBlock {
     display:    inline-block;
 }
+
+iframe {
+    frameborder:    0;
+}
