@@ -22,7 +22,7 @@ function initMap(lat, long, radius) {
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: original_location,
-        zoom: 5
+        zoom: 10
     });
 
     infowindow = new google.maps.InfoWindow();
@@ -87,6 +87,10 @@ function addPlaceToDom(placeObj) {
 
 
 $(document).ready(function(){
+
+    getAndDisplayYTVideos ("The Observatory");  // call function to get YouTube videos from YouTube API and display on info.html
+    getAndDisplayTweets ("Yost Theater");       // call function to get tweets from Twitter API and display on info.html
+
     $('.zipCodeButton').click(function(){
         zipcode = $('#zipcode').val();
         radius = $('#radius').val();
@@ -146,43 +150,93 @@ $(document).ready(function(){
             console.log('End of click function');
         });
 
+    function getTweets (Twitter_searchTerm) {
+        var photo, picLink, tweet;
+        var tweet_storage_array = [];
 
-// $('.youTubeButton').click(function() {
-//                     console.log("button clicked");
-//                     $.ajax({
-//                         dataType:   'json',
-//                         url:    'http://s-apis.learningfuze.com/hackathon/youtube/search.php?',
-//                         method: "POST",
-//                         data: {q: "The Observatory", maxResults: 12 },
-//                         success: function(result) {
-//                             console.log("result: ", result);
-//                             var array = result.video;
-//                             var length = array.length;
-//                             var jkl, mno, pqr;
-//
-//                             console.log('AJAX successfully called');
-//
-//                             for (var j=0; j < length; j++) {
-//                                 console.log("j: " + j);
-//
-//                                 jkl = result.video[j].title;
-//                                 $("main").append(jkl);
-//                                 $("main").append("<br>");
-//
-//                                 mno = result.video[j].id;
-//                                 console.log("id: ", mno);
-//
-//                                 pqr = $("<iframe>", {
-//                                     src: "https://www.youtube.com/embed/" + mno
-//                                 });
-//
-//                                 $("main").append(pqr);
-//                                 $("main").append("<br>");
-//
-//                             }
-//             }
-//         });
-//     });
+        console.log("in function getAndDisplayTweets");
+        $.ajax ({
+            dataType:   'json',
+            url:        'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
+            method:     "POST",
+            data: {search_term: Twitter_searchTerm, lat: 34, long: -118, radius: 500},
+            success: function(result) {
+                console.log("result: ", result);
+                console.log('AJAX successfully called');
+
+                var array = result.tweets.statuses;
+                var length = array.length;
+
+                for (var j=0; j < length; j++) {
+                    console.log("j: " + j);
+                    tweet_storage_array[j] = {};
+                    tweet_storage_array[j].urlPic = result.tweets.statuses[j].user.profile_image_url;
+                    tweet_storage_array[j].twt = result.tweets.statuses[j].text;
+                }
+                displayTweets(tweet_storage_array);
+                console.log("tweet_storage_array: ", tweet_storage_array);
+            }
+        });
+    }
+
+    function displayTweets (tweet_array) {
+        var length;
+
+        length = tweet_array.length;
+        for (var w=0; w < 5 ; w++) {
+            $(".Container2").append($("<tr>"));             // append table row
+
+            for (var v=0; v < 2; ++v) {                     // append 2 columns to the row just created
+                $(".Container2 tr:last-child").append($("<td>"));
+            }
+
+            picLink = tweet_array[w].urlPic;
+            photo = $("<img>", {
+                src: picLink
+            });
+            $(".Container2 tr:last-child td:first-child").append(photo);
+
+            tweet = tweet_array[w].twt;
+            $(".Container2 tr:last-child td:nth-child(2)").append(tweet);
+        }
+    }
+
+    function getAndDisplayYTVideos (YT_searchTerm) {
+        var title, id_video, vid;
+        console.log("in function getAndDisplayYTVideos");
+
+        $.ajax ({
+            dataType:   'json',
+            url:        'http://s-apis.learningfuze.com/hackathon/youtube/search.php?',
+            method:     "POST",
+            data: {q: YT_searchTerm, maxResults: 5},
+            success: function(result) {
+                console.log('AJAX successfully called');
+                console.log("result: ", result);
+
+                var array = result.video;
+                var length = array.length;
+
+                for (var j=0; j < length; j++) {
+                    console.log("j: " + j);
+
+                    title = result.video[j].title;
+                    $(".Container3").append(title);
+                    $(".Container3").append("<br>");
+
+                    id_video = result.video[j].id;
+                    console.log("id: ", id_video);
+
+                    vid = $("<iframe>", {
+                        src: "https://www.youtube.com/embed/" + id_video
+                    });
+
+                    $(".Container3").append(vid);
+                    $(".Container3").append("<br>");
+                }
+            }
+        });
+    }
 
     //initMap();
     places_list = $('.places-list');
