@@ -90,6 +90,9 @@ iframe {
 .container1 {
     display: none;
 }
+.container3{
+    display: none;
+}
 .carousel-inner{
     height: 400px;
     width: 100vw;
@@ -238,6 +241,9 @@ h4{
 */
 
 .Container1 {
+    height: 30vh;
+    width: 90vw;
+
 
 }
 
@@ -247,11 +253,7 @@ h4{
     /*background-color:   pink;*/
 }
 
-.Container3 {
-    height:             30vh;
-    width:              90vw;
-    background-color:   lightyellow;
-}
+
 
 /*table, tr, td {*/
     /*border:             0.2em solid blue;*/
