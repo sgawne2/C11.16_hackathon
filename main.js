@@ -13,6 +13,7 @@ var map;
 var infowindow;
 var places_array = [];
 var places_list;
+var tweet_storage_array = [];
 
 /**
  *
@@ -99,7 +100,7 @@ function addPlaceToDom(placeObj) {
 
 
 $(document).ready(function(){
-    initMap(51.4826,0.0077,100000);
+    // initMap(51.4826,0.0077,100000);
     places_list = $('.places-list');
     $(places_list).on('click', '.mediaButton', function(){
         var index = $(this).index('.mediaButton');
@@ -112,7 +113,7 @@ $(document).ready(function(){
     });
 
     getAndDisplayYTVideos ("The Observatory");  // call function to get YouTube videos from YouTube API and display on info.html
-    //getAndDisplayTweets ("Yost Theater");       // call function to get tweets from Twitter API and display on info.html
+    getAndDisplayFirstTweets ("Yost Theater");       // call function to get tweets from Twitter API and display on info.html
 
     $('.zipCodeButton').click(function(){
         zipcode = $('#zipcode').val();
@@ -173,7 +174,7 @@ $(document).ready(function(){
             console.log('End of click function');
         });
 
-    function getAndDisplayTweets (Twitter_searchTerm) {
+    function getAndDisplayFirstTweets (Twitter_searchTerm) {
         var photo, picLink, tweet;
         var tweet_storage_array = [];
 
@@ -196,34 +197,49 @@ $(document).ready(function(){
                     tweet_storage_array[j].urlPic = result.tweets.statuses[j].user.profile_image_url;
                     tweet_storage_array[j].twt = result.tweets.statuses[j].text;
                 }
-                displayTweets(tweet_storage_array);
+                displayTweets(1, length);
                 console.log("tweet_storage_array: ", tweet_storage_array);
             }
         });
     }
 
-    function displayTweets (tweet_array) {
+    function displayTweets (tweetNum, totalTweetNum) {
         var length;
+        $(".Container2 .twit thead tr th:nth-child(3)").text(tweetNum);
+        $(".Container2 .twit thead tr th:nth-child(5)").text(tweetNum+4);
+        $(".Container2 .twit thead tr th:nth-child(7)").text(totalTweetNum);
 
         length = tweet_array.length;
-        for (var w=0; w < 5 ; w++) {
-            $(".Container2").append($("<tr>"));             // append table row
+        for (var w=tweetNum - 1; w < tweetNum + 4 ; w++) {
+            $(".Container2 .twit tbody").append($("<tr>"));             // append table row
 
             for (var v=0; v < 2; ++v) {                     // append 2 columns to the row just created
-                $(".Container2 tr:last-child").append($("<td>"));
+                $(".Container2 .twit tbody tr:last-child").append($("<td>"));
             }
 
             picLink = tweet_array[w].urlPic;
             photo = $("<img>", {
                 src: picLink
             });
-            $(".Container2 tr:last-child td:first-child").append(photo);
+            $(".Container2 .twit tbody tr:last-child td:first-child").append(photo);
 
             tweet = tweet_array[w].twt;
-            $(".Container2 tr:last-child td:nth-child(2)").append(tweet);
+            $(".Container2 .twit tbody tr:last-child td:nth-child(2)").append(tweet);
         }
+
     }
 
+    $('.followingTweets').click(displayFollowingTweets);
+
+    function displayFollowingTweets () {
+        $("tbody tr").remove();
+        displayTweets()
+    }
+
+    $('.precedingTweets').click(function(){
+        $("tbody tr").remove();
+        displayTweets()
+    }
     function getAndDisplayYTVideos (YT_searchTerm) {
         var title, id_video, vid;
         console.log("in function getAndDisplayYTVideos");
@@ -262,35 +278,7 @@ $(document).ready(function(){
     }
 
     $('.youTubeButton').click(function() {
-        console.log("button clicked");
-        $.ajax({
-            dataType:   'json',
-            url:    'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
-            method: "POST",
-            data: {search_term: "Fuck", lat: 35, long: -120, radius: 5000 },
-            success: function(result) {
-                console.log("result: ", result);
-                var array = result.tweets.statuses;
-                var length = array.length;
-                var abc, def, ghi;
 
-                console.log('AJAX successfully called');
-
-                for (var j=0; j < length; j++) {
-                    console.log("j: " + j);
-                    abc = result.tweets.statuses[j].text;
-                    $("main").append(abc);
-                    $("main").append("<br>");
-
-                    def = result.tweets.statuses[j].user.profile_image_url;
-                    console.log("def: ", def);
-
-                    ghi = $("<img>",{src: def});
-                    $("main").append(ghi);
-                    $("main").append("<br>");
-                }
-            }
-        });
     });
 });
 
