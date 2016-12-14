@@ -28,10 +28,17 @@ var map;
 var infowindow;
 var places_array = [];
 
+/**
+ * Twitter variables
+ */
 var tweet_storage_array = [];   // where I store all the tweets for the current venue
 var tweetNum;                   // which Tweet number we are on, the 1st of five
 var totalTweetNum;              // the number of tweets we have pulled from Twitter API for the current venue
-var YT_num = 10;
+
+/**
+ * YouTube variables
+ */
+var YT_num = 10;                // maximum number of YouTube videos inserted into carousel
 
 $(document).ready(function() {
 
@@ -75,8 +82,6 @@ $(document).ready(function() {
 
     $('.landingPageButton').click(landingPageButtonClicked);
 
-
-
     $('.followingTweets').click(displayFollowingTweets);    // clears current tweets and displays the next 5 tweets
     $('.precedingTweets').click(displayPrecedingTweets);    // clears current tweets and displays the preceding 5 tweets
 
@@ -110,8 +115,8 @@ $(document).ready(function() {
     city = city[city.length-1];
     $('.infoVenueName').append(venue_name);
     $(".infoAddress").append(vicinity);
-    getAndDisplayFirstTweets(venue_name + city); // call function to get tweets from Twitter API and display on info.html
-    getAndDisplayYTVideos(venue_name + city);  // call function to get YouTube videos from YouTube API and display on info.html
+    getAndDisplayFirstTweets(venue_name + city);    // gets tweets from Twitter API and displays on info.html
+    getAndDisplayYTVideos(venue_name + city);       // gets videos from YouTube API and displays on info.html
     // flicker API call begins here
     getAndDisplayFlickrPhotos(venue_name + city);
 });
@@ -264,7 +269,6 @@ function landingPageButtonClicked() {
     console.log('End of click function');
 }
 
-
 function zipCodeButtonClicked() {
     zipcode = input_zipcode.val();
     radius = $('#radius').val();
@@ -327,30 +331,28 @@ function getAndDisplayFlickrPhotos(string) {
  */
 function getAndDisplayFirstTweets (Twitter_searchTerm) {
     var photo, picLink;
-    tweetNum = 1;
-
+    tweetNum = 1;       // global variable; this function is only called once at "document(ready)", so tweetNum will always be 1
     console.log("in function getAndDisplayFirstTweets");
 
     $.ajax ({
         dataType:   'json',
         url:        'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
         method:     "POST",
-        data: {search_term: Twitter_searchTerm, lat: 34, long: -118, radius: 500},
+        data: {search_term: Twitter_searchTerm, lat: 34, long: -118, radius: 500},  // lat & long for Orange County
         success: function(result) {
-            console.log("result: ", result);
-            console.log('AJAX successfully called');
+            console.log("result: ", result);    console.log('AJAX successfully called');
 
             var array = result.tweets.statuses;
             var length = array.length;
-            totalTweetNum = length;
+            totalTweetNum = length;             // global variable
 
-            for (var j = 0; j < length; j++) {
+            for (var j = 0; j < length; j++) {  // store each tweet pic url and text into object within global array
                 console.log("j: " + j);
                 tweet_storage_array[j] = {};
                 tweet_storage_array[j].urlPic = result.tweets.statuses[j].user.profile_image_url;
                 tweet_storage_array[j].twt = result.tweets.statuses[j].text;
             }
-            displayTweets();
+            displayTweets();                    // display the 1st five tweets
             console.log("tweet_storage_array: ", tweet_storage_array);
         }
     });
@@ -366,7 +368,7 @@ function displayTweets() {
             secondNumber = totalTweetNum;
         }
 
-        $(".Container2 .twit thead tr th:nth-child(3)").text(tweetNum);
+        $(".Container2 .twit thead tr th:nth-child(3)").text(tweetNum);     // this is the table header
         $(".Container2 .twit thead tr th:nth-child(5)").text(secondNumber);
         $(".Container2 .twit thead tr th:nth-child(7)").text(totalTweetNum);
 
@@ -390,10 +392,10 @@ function displayTweets() {
 
             tweet = tweet_storage_array[w].twt;
             $(".Container2 .twit tbody tr:last-child td:nth-child(2)").append(tweet);
-        }
-    }
+        } // end of outer for loop
+    } // end of function displayTweets
 
-/** This function deletes the table rows of the old tweets first, then displays the next 5 tweets.  The if block takes care of the "wrap around" in case the user exceeds the number of tweets. VL */
+/** This function deletes the table rows of the old tweets first, then displays the next 5 tweets.  The if block takes care of the "wrap around" in case the user exceeds the number of tweets. Function called when clicking on "greater than" symbol on right hand side.  VL */
 function displayFollowingTweets () {
     tweetNum += 5;
     $("tbody tr").remove();
@@ -405,9 +407,9 @@ function displayFollowingTweets () {
     displayTweets();
 }
 
-/** This function deletes the table rows of the old tweets first, then displays the preceding 5 tweets.  The if block logic takes care of the "wrap around". VL */
+/** This function deletes the table rows of the old tweets first, then displays the preceding 5 tweets.  The if block logic takes care of the "wrap around".  Function called when clicking on "less than" symbol on left hand side. VL */
 function displayPrecedingTweets () {
-    var remainer;
+    var remainder;
 
     tweetNum -= 5;
     $("tbody tr").remove();
@@ -439,23 +441,22 @@ function getAndDisplayYTVideos (YT_searchTerm) {
         method: "POST",
         data: {q: YT_searchTerm, maxResults: 5},
         success: function (result) {
-            console.log('AJAX successfully called');
-            console.log("result: ", result);
+            console.log('AJAX successfully called');    console.log("result: ", result);
 
             var array = result.video;
-            // var length = array.length;
+            // var length = array.length;  save this just in case we want to include all YouTube videos.
 
-            for (var j = 0; j < YT_num; j++) {
+            for (var j = 0; j < YT_num; j++) {  // YT_num is a global variable that is initialized to 10 for now.
                 console.log("j: " + j);
 
-                title = result.video[j].title;
+                title = result.video[j].title;  // Though we don't do anything with title, we might use it in future.
                 id_video = result.video[j].id;
-                console.log("id: ", id_video);
 
                 vid = $("<iframe>", {
                     src: "https://www.youtube.com/embed/" + id_video
                     // src:    "http://www.youtube.com/v/" + id_video + "?enablejsapi=1&version=3&playerapiid=ytplayer"
                 });
+
                 if (!j) {
                     var youTubeDiv = $("<div>").addClass("item active");
                     $("#myCarousel2 .carousel-inner").append(youTubeDiv);
