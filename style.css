@@ -41,6 +41,18 @@ a:active{
     margin: auto;
 }
 
+#map_container{
+    width: 80vw;
+    height:60vh;
+    margin: 0 auto;
+    position:relative;
+    top: 10vh;
+    overflow:hidden;
+    border-radius: 5px;
+    border:1px solid black;
+    box-shadow: 2px 5px 10px #dddddd;
+}
+
 /* Always set the map height explicitly to define the size of the div
          * element that contains the map. */
 #map {
@@ -48,7 +60,6 @@ a:active{
     height:60vh;
     margin: 0 auto;
     position:relative;
-    top: 10vh;
 }
 
 thead > tr{
@@ -272,3 +283,7 @@ h4{
     position:relative;
     top:10vh;
 }
+
+/*.zipcodeForm {*/
+    /*display: none;*/
+/*}*/

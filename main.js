@@ -6,18 +6,24 @@
  *  https://developers.google.com/maps/documentation/javascript/places
  */
 
-//html elements
+/**
+ * Global variables for html elemetns
+ */
 var input_zipcode;
 var imageSearch;
 var places_list;
 
-//url parameters
+/**
+ * Global variables for url parameters
+ */
 var venue_name;
 var lat_from_landing;
 var long_from_landing;
 var radius_from_landing;
 
-//google maps variables
+/**
+ * Google maps variables
+ */
 var map;
 var infowindow;
 var places_array = [];
@@ -61,7 +67,7 @@ $(document).ready(function() {
     $(places_list).on('click', '.mediaButton', function(){
         var index = $(this).index('.mediaButton');
         var name = places_array[index].name;
-        alert(name);
+        //alert(name);
     });
 
     input_zipcode = $('#zipcode');
@@ -92,6 +98,12 @@ $(document).ready(function() {
         console.log('End of click function');
 
     });
+    $('.manualLocationButton').click(function() {
+        $('.manualLocationButton').hide();
+        $('.autoLocationButton').hide();
+        $('.zipcodeForm').show();
+    });
+
     venue_name = getUrlParameter("name");
     getAndDisplayFirstTweets(venue_name); // call function to get tweets from Twitter API and display on info.html
     getAndDisplayYTVideos(venue_name);  // call function to get YouTube videos from YouTube API and display on info.html
@@ -187,7 +199,7 @@ function addPlaceToDom(placeObj) {
         hours = placeObj.opening_hours.open_now;
     }
     var tr = $('<tr>');
-    var media_button = $('<button type="button" class="btn btn-info mediaButton"><a href="info.html?name=' + name + '">Images</a></button>');
+    var media_button = $('<a href="info.html?name=' + name + '"><button type="button" class="btn btn-info mediaButton">Images</button></a>');
     tr.append( $('<td>').html('<a href="#">' + name + '</a>') );
     tr.append( $('<td>').text(vicinity) );
     tr.append( $('<td>').text(hours) );
