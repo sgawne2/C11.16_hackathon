@@ -106,12 +106,14 @@ $(document).ready(function() {
 
     venue_name = getUrlParameter("name");
     var vicinity = getUrlParameter("vicinity");
+    var city = vicinity.split(",");
+    city = city[city.length-1];
     $('.infoVenueName').append(venue_name);
     $(".infoAddress").append(vicinity);
-    getAndDisplayFirstTweets(venue_name); // call function to get tweets from Twitter API and display on info.html
-    getAndDisplayYTVideos(venue_name);  // call function to get YouTube videos from YouTube API and display on info.html
+    getAndDisplayFirstTweets(venue_name + city); // call function to get tweets from Twitter API and display on info.html
+    getAndDisplayYTVideos(venue_name + city);  // call function to get YouTube videos from YouTube API and display on info.html
     // flicker API call begins here
-    getAndDisplayFlickrPhotos(venue_name);
+    getAndDisplayFlickrPhotos(venue_name + city);
 });
 
 /**
@@ -127,7 +129,7 @@ function milesToMeters(miles) {
 
 /**
  * Creates a Google Map element inside the #map div and
- * @param lat
+ * @param lat {number}:
  * @param long
  * @param radius
  */
@@ -193,10 +195,20 @@ function populateList() {
     }
 }
 
+function getPlaceDetails(place) {
+    var service = new google.maps.places.PlacesService(map);
+    var request = {
+        placeId: place
+    };
+    return service.getDetails(request, callback);
+}
+
 function addPlaceToDom(placeObj) {
     var name = placeObj.name;
     var vicinity  = placeObj.vicinity;
     var rating  = placeObj.rating;
+    //var placeid = placeObj.place_id;
+    // var hours = false;
     var hours = "Closed";
     if (placeObj.opening_hours) {
         if (placeObj.opening_hours.open_now){
@@ -205,14 +217,15 @@ function addPlaceToDom(placeObj) {
 
     }
     var tr = $('<tr>');
-    var media_button = $('<button type="button" class="btn btn-info mediaButton"><a href="info.html?name=' + name + '&vicinity='+vicinity+' ">Info</a></button>');
+    var media_button = $('<a href="info.html?name=' + name + '&vicinity='+vicinity+' "><button type="button" class="btn btn-info mediaButton">Info</button></a>');
     tr.append( $('<td>').html('<a href="#">' + name + '</a>') );
     tr.append( $('<td>').text(vicinity) );
     tr.append( $('<td>').text(hours) );
     tr.append( $('<td>').text(rating) );
     tr.append( $('<td>').append(media_button) );
     tr.appendTo(places_list);
-
+    // var details = getPlaceDetails(placeid);
+    // console.log(details.url);
 }
 //END GOOGLE PLACES API
 
