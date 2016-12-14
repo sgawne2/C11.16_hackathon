@@ -101,6 +101,10 @@ iframe {
     -webkit-font-smoothing: antialiased;
 }
 
+.mediaButton {
+    color:  white;
+}
+
 tbody > tr{
     font-weight: 500;
 }
