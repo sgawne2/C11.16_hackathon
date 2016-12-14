@@ -78,6 +78,9 @@ $(document).ready(function() {
         "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC87SYazc5x5nNq7digLxdNnB3riG_eaVc"
     });
     venue_name = getUrlParameter("name");
+    var vicinity = getUrlParameter("vicinity");
+    $('.infoVenueName').append(venue_name);
+    $(".infoAddress").append(vicinity);
     getAndDisplayFirstTweets(venue_name); // call function to get tweets from Twitter API and display on info.html
     getAndDisplayYTVideos(venue_name);  // call function to get YouTube videos from YouTube API and display on info.html
     // flicker API call begins here
@@ -172,13 +175,14 @@ function addPlaceToDom(placeObj) {
         hours = placeObj.opening_hours.open_now;
     }
     var tr = $('<tr>');
-    var media_button = $('<button type="button" class="btn btn-info mediaButton"><a href="info.html?name=' + name + '">Images</a></button>');
+    var media_button = $('<button type="button" class="btn btn-info mediaButton"><a href="info.html?name=' + name + '&vicinity='+vicinity+' ">Images</a></button>');
     tr.append( $('<td>').html('<a href="#">' + name + '</a>') );
     tr.append( $('<td>').text(vicinity) );
     tr.append( $('<td>').text(hours) );
     tr.append( $('<td>').text(rating) );
     tr.append( $('<td>').append(media_button) );
     tr.appendTo(places_list);
+
 }
 //END GOOGLE PLACES API
 
