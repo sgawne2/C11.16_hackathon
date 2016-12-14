@@ -197,12 +197,15 @@ function addPlaceToDom(placeObj) {
     var name = placeObj.name;
     var vicinity  = placeObj.vicinity;
     var rating  = placeObj.rating;
-    var hours = false;
+    var hours = "Closed";
     if (placeObj.opening_hours) {
-        hours = placeObj.opening_hours.open_now;
+        if (placeObj.opening_hours.open_now){
+            hours = "Open";
+        }
+
     }
     var tr = $('<tr>');
-    var media_button = $('<button type="button" class="btn btn-info mediaButton"><a href="info.html?name=' + name + '&vicinity='+vicinity+' ">Images</a></button>');
+    var media_button = $('<button type="button" class="btn btn-info mediaButton"><a href="info.html?name=' + name + '&vicinity='+vicinity+' ">Info</a></button>');
     tr.append( $('<td>').html('<a href="#">' + name + '</a>') );
     tr.append( $('<td>').text(vicinity) );
     tr.append( $('<td>').text(hours) );
