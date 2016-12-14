@@ -273,6 +273,28 @@ h4{
     box-shadow: 0 2px 8px #7a7a7a;
 }
 
+/*th {*/
+/*border: 1px yellow dotted;*/
+/*}*/
+
+.Container2 .twit thead tr th {
+    padding:    0.3em;
+    margin:     0.3em;
+}
+
+.Container2 .twit thead tr th:nth-child(2) {
+    text-align:     right;
+    padding-right:  1em;
+}
+
+.Container2 .twit thead tr th:nth-child(6) {
+    padding-left:  1em;
+}
+
+.Container2 .twit thead tr th:nth-child(7) {
+    padding-right:  4em;
+}
+
 .Container3 {
     height: 50vh;
     width: 70vw;
@@ -302,12 +324,13 @@ h4{
     background-color:black;
     border:none;
     color:white;
+
 }
 
 .carousel-control.right,
 .carousel-control.left,
-.carousel-inner{
+.carousel-inner {
     border-radius: 10px;
-    border:none;
+    border: none;
     overflow: hidden;
 }
