@@ -438,7 +438,7 @@ function getAndDisplayYTVideos (YT_searchTerm) {
 
     $.ajax({
         dataType: 'json',
-        url: 'http://s-apis.learningfuze.com/hackathon/youtube/search.php?',
+        url: '//s-apis.learningfuze.com/hackathon/youtube/search.php?',
         method: "POST",
         data: {q: YT_searchTerm, maxResults: 5},
         success: function (result) {
