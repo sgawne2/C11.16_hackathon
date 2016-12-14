@@ -5,6 +5,13 @@ header {
 
 button {
     margin: auto;
+    transition: box-shadow 0.5s linear 0s, color 0.5s linear 0s;
+    box-shadow: 0 0 5px #7a7a7a;
+}
+
+button:hover{
+    top: -1px;
+    box-shadow: 0 0 5px #7a7a7a;
 }
 
 .carousel-inner > .item > img,
@@ -141,7 +148,7 @@ html, body {
     margin:0;
     height:100%;
     width:100%;
-    position:absolute;
+    position:fixed;
     background-image: url('img/background_image.jpg');
     background-repeat: no-repeat;
     background-size:cover;
@@ -236,15 +243,11 @@ h4{
 }
 .venueDetails ul li {
     list-style-type: none;
+    line-height: 4vh;
 }
 
 .venueDetails ul{
     padding:0;
-}
-
-.carousel-inner {
-    /*width:100%;*/
-    /*height:100%;*/
 }
 
 .Container1 {
@@ -253,8 +256,9 @@ h4{
     margin: 0 auto;
     position: relative;
     top:5vh;
-    border-radius: 2vw;
+    border-radius: 5px;
     overflow: hidden;
+    box-shadow: 0 2px 8px #7a7a7a;
 }
 
 .Container2{
@@ -263,9 +267,10 @@ h4{
     margin: 0 auto;
     position: relative;
     top:5vh;
-    border-radius: 2vw;
+    border-radius: 5px;
     overflow: hidden;
     display: none;
+    box-shadow: 0 2px 8px #7a7a7a;
 }
 
 .Container3 {
@@ -274,19 +279,35 @@ h4{
     margin: 0 auto;
     position: relative;
     top:5vh;
-    border-radius: 2vw;
+    border-radius: 5px;
     overflow: hidden;
     display:none;
+    box-shadow: 0 2px 8px #7a7a7a;
 }
 
 .dropdown{
     position:absolute;
     left:0;
     top:0;
+    transition: box-shadow 0.5s linear 0s, color 0.5s linear 0s;
+    box-shadow: 0 0 5px #7a7a7a;
+}
+
+.dropdown:hover{
+    top: -1px;
+    box-shadow: 0 0 5px #7a7a7a;
 }
 
 .dropdown-toggle{
     background-color:black;
     border:none;
     color:white;
+}
+
+.carousel-control.right,
+.carousel-control.left,
+.carousel-inner{
+    border-radius: 10px;
+    border:none;
+    overflow: hidden;
 }
