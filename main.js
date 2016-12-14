@@ -97,7 +97,7 @@ $(document).ready(function() {
                 longitude= data.location.lng;
                 console.log(data);
                 console.log("Lat = "+latitude+"- Long = "+longitude + " - Radius = " +radius);
-                document.location.href = "index.html?lat=" + latitude + "&long=" + longitude + "&radius=" + radius;
+                document.location.href = "map.html?lat=" + latitude + "&long=" + longitude + "&radius=" + radius;
             }
         });
         console.log('End of click function');
@@ -263,7 +263,7 @@ function landingPageButtonClicked() {
             longitude= data.results[0].geometry.location.lng;
             console.log(data);
             console.log("Lat = "+latitude+"- Long = "+longitude + " - Radius = " +radius);
-            document.location.href = "index.html?lat=" + latitude + "&long=" + longitude + "&radius=" + radius;
+            document.location.href = "map.html?lat=" + latitude + "&long=" + longitude + "&radius=" + radius;
         }
     });
     console.log('End of click function');
@@ -279,6 +279,7 @@ function zipCodeButtonClicked() {
         method: "POST",
         success: function(data) {
             console.log('AJAX Success function called, with the following result:', data);
+            latitude = data.results[0].geometry.location.lat;
             latitude = data.results[0].geometry.location.lat;
             longitude= data.results[0].geometry.location.lng;
             console.log(data);
