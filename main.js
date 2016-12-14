@@ -31,7 +31,7 @@ var places_array = [];
 var tweet_storage_array = [];   // where I store all the tweets for the current venue
 var tweetNum;                   // which Tweet number we are on, the 1st of five
 var totalTweetNum;              // the number of tweets we have pulled from Twitter API for the current venue
-var YT_num = 1;
+var YT_num = 10;
 
 $(document).ready(function() {
 
@@ -438,6 +438,7 @@ function getAndDisplayYTVideos (YT_searchTerm) {
 
                 vid = $("<iframe>", {
                     src: "https://www.youtube.com/embed/" + id_video
+                    // src:    "http://www.youtube.com/v/" + id_video + "?enablejsapi=1&version=3&playerapiid=ytplayer"
                 });
                 if (!j) {
                     var youTubeDiv = $("<div>").addClass("item active");
