@@ -92,6 +92,7 @@
 </div>
 
 <div class="Container2">
+    <!-- Twitter Tweets container -->
     <table class="twit">
         <thead>
             <tr>
@@ -99,25 +100,26 @@
                     <button type="button" class="btn btn-success precedingTweets"> < </button>
                 </th>
                 <th>Tweet</th>
-                <th></th>       <!-- first # -->
+                <th></th>       <!-- dynamically insert text: first # (tweetNum) -->
                 <th> - </th>
-                <th></th>       <!-- second # -->
+                <th></th>       <!-- dynamically insert text: second # -->
                 <th> of </th>
-                <th></th>       <!-- of total # -->
+                <th></th>       <!-- dynamically insert text: total # of tweets (totalTweetNum) -->
                 <th>
                     <button type="button" class="btn btn-success followingTweets"> > </button>
                 </th>
             </tr>
         </thead>
         <tbody>
-        <!-- dynamically create table rows and columns for each tweet -->
+            <!-- dynamically create table rows and columns for each tweet -->
         </tbody>
     </table>
 </div>
 
 
 <div class="Container3">
-    <div id="myCarousel2" class="carousel slide" data-interval="false"> <!-- data-ride="carousel" -->
+    <!-- YouTube videos container -->
+    <div id="myCarousel2" class="carousel slide" data-interval="false"> <!-- data-ride="carousel"; interval to false stops it sliding -->
         <ol class = "carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
             <li data-target="#myCarousel" data-slide-to="1"></li>
