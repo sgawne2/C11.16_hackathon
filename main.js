@@ -6,18 +6,24 @@
  *  https://developers.google.com/maps/documentation/javascript/places
  */
 
-//html elements
+/**
+ * Global variables for html elements
+ */
 var input_zipcode;
 var imageSearch;
 var places_list;
 
-//url parameters
+/**
+ * Global variables for url parameters
+ */
 var venue_name;
 var lat_from_landing;
 var long_from_landing;
 var radius_from_landing;
 
-//google maps variables
+/**
+ * Google maps variables
+ */
 var map;
 var infowindow;
 var places_array = [];
@@ -61,7 +67,7 @@ $(document).ready(function() {
     $(places_list).on('click', '.mediaButton', function(){
         var index = $(this).index('.mediaButton');
         var name = places_array[index].name;
-        alert(name);
+        //alert(name);
     });
 
     input_zipcode = $('#zipcode');
@@ -75,8 +81,29 @@ $(document).ready(function() {
     $('.precedingTweets').click(displayPrecedingTweets);    // clears current tweets and displays the preceding 5 tweets
 
     $('.autoLocationButton').click(function() {
-        "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC87SYazc5x5nNq7digLxdNnB3riG_eaVc"
+        radius = null;
+        $.ajax({
+            dataType: 'json',
+            url: 'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyC87SYazc5x5nNq7digLxdNnB3riG_eaVc',
+            method: "POST",
+            success: function(data) {
+                console.log('AJAX Success function called, with the following result:', data);
+                latitude = data.location.lat;
+                longitude= data.location.lng;
+                console.log(data);
+                console.log("Lat = "+latitude+"- Long = "+longitude + " - Radius = " +radius);
+                document.location.href = "index.html?lat=" + latitude + "&long=" + longitude + "&radius=" + radius;
+            }
+        });
+        console.log('End of click function');
+
     });
+    $('.manualLocationButton').click(function() {
+        $('.manualLocationButton').hide();
+        $('.autoLocationButton').hide();
+        $('.zipcodeForm').show();
+    });
+
     venue_name = getUrlParameter("name");
     var vicinity = getUrlParameter("vicinity");
     $('.infoVenueName').append(venue_name);
