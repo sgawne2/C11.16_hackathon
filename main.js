@@ -337,7 +337,7 @@ function getAndDisplayFirstTweets (Twitter_searchTerm) {
 
     $.ajax ({
         dataType:   'json',
-        url:        'http://s-apis.learningfuze.com/hackathon/twitter/index.php',
+        url:        '//s-apis.learningfuze.com/hackathon/twitter/index.php',
         method:     "POST",
         data: {search_term: Twitter_searchTerm, lat: 34, long: -118, radius: 500},  // lat & long for Orange County
         success: function(result) {
