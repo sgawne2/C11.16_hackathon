@@ -12,10 +12,11 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
     <script src="main.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDT9DL6C25JDhTG0ud6mH6T7GWo6BcRg7s&libraries=places"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
-<div class="headerContainer page-header">
+<div class="headerContainer">
     <div class="venueName">
         <h1 class="infoVenueName"></h1>
     </div>
@@ -25,22 +26,40 @@
             <!--  <li>Hours</li>
             <li>Contact</li> -->
         </ul>
+        <button type="button" class="btn btn-warning"><i style="font-size:13px" class="fa">&#xf0d9;</i> Back</button>
+
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">More!
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li class="dropPhotosButton" role="presentation"><a role="menuitem" tabindex="-1" href="#">Photos</a></li>
+                <li role="presentation" class="divider"></li>
+                <li class="dropYouTubeButton" role="presentation"><a role="menuitem" tabindex="-1" href="#">Youtube</a></li>
+                <li role="presentation" class="divider"></li>
+                <li class="dropTweetsButton" role="presentation"><a role="menuitem" tabindex="-1" href="#">Tweets</a></li>
+                <li role="presentation" class="divider"></li>
+            </ul>
+        </div>
     </div>
+    <!-- end of drop down button-->
+        <div class="colorBar"></div>
+    </div>
+
    <!--drop down button -->
-    <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">More!
-            <span class="caret"></span></button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-            <li class="dropPhotosButton" role="presentation"><a role="menuitem" tabindex="-1" href="#">Photos</a></li>
-            <li role="presentation" class="divider"></li>
-            <li class="dropYouTubeButton" role="presentation"><a role="menuitem" tabindex="-1" href="#">Youtube</a></li>
-            <li role="presentation" class="divider"></li>
-            <li class="dropTweetsButton" role="presentation"><a role="menuitem" tabindex="-1" href="#">Tweets</a></li>
-            <li role="presentation" class="divider"></li>
-        </ul>
-    </div>
-</div>
-<!-- end of drop down button-->
+    <!--<div class="dropdown">-->
+        <!--<button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">More!-->
+            <!--<span class="caret"></span></button>-->
+        <!--<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">-->
+            <!--<li class="dropPhotosButton" role="presentation"><a role="menuitem" tabindex="-1" href="#">Photos</a></li>-->
+            <!--<li role="presentation" class="divider"></li>-->
+            <!--<li class="dropYouTubeButton" role="presentation"><a role="menuitem" tabindex="-1" href="#">Youtube</a></li>-->
+            <!--<li role="presentation" class="divider"></li>-->
+            <!--<li class="dropTweetsButton" role="presentation"><a role="menuitem" tabindex="-1" href="#">Tweets</a></li>-->
+            <!--<li role="presentation" class="divider"></li>-->
+        <!--</ul>-->
+    <!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash; end of drop down button&ndash;&gt;-->
 
 <div class="Container1">
     <!-- photo container -->
@@ -98,7 +117,7 @@
 
 
 <div class="Container3">
-    <div id="myCarousel2" class="carousel slide" data-ride="carousel">
+    <div id="myCarousel2" class="carousel slide" data-interval="false"> <!-- data-ride="carousel" -->
         <ol class = "carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
             <li data-target="#myCarousel" data-slide-to="1"></li>

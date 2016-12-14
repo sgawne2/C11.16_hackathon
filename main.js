@@ -208,12 +208,16 @@ function addPlaceToDom(placeObj) {
     var vicinity  = placeObj.vicinity;
     var rating  = placeObj.rating;
     //var placeid = placeObj.place_id;
-    var hours = false;
+    // var hours = false;
+    var hours = "Closed";
     if (placeObj.opening_hours) {
-        hours = placeObj.opening_hours.open_now;
+        if (placeObj.opening_hours.open_now){
+            hours = "Open";
+        }
+
     }
     var tr = $('<tr>');
-    var media_button = $('<a href="info.html?name=' + name + '&vicinity='+vicinity+' "><button type="button" class="btn btn-info mediaButton">Images</button></a>');
+    var media_button = $('<a href="info.html?name=' + name + '&vicinity='+vicinity+' "><button type="button" class="btn btn-info mediaButton">Info</button></a>');
     tr.append( $('<td>').html('<a href="#">' + name + '</a>') );
     tr.append( $('<td>').text(vicinity) );
     tr.append( $('<td>').text(hours) );
@@ -450,6 +454,7 @@ function getAndDisplayYTVideos (YT_searchTerm) {
 
                 vid = $("<iframe>", {
                     src: "https://www.youtube.com/embed/" + id_video
+                    // src:    "http://www.youtube.com/v/" + id_video + "?enablejsapi=1&version=3&playerapiid=ytplayer"
                 });
                 if (!j) {
                     var youTubeDiv = $("<div>").addClass("item active");
