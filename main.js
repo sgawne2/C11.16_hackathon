@@ -7,7 +7,7 @@
  */
 
 /**
- * Global variables for html elemetns
+ * Global variables for html elements
  */
 var input_zipcode;
 var imageSearch;
@@ -105,6 +105,9 @@ $(document).ready(function() {
     });
 
     venue_name = getUrlParameter("name");
+    var vicinity = getUrlParameter("vicinity");
+    $('.infoVenueName').append(venue_name);
+    $(".infoAddress").append(vicinity);
     getAndDisplayFirstTweets(venue_name); // call function to get tweets from Twitter API and display on info.html
     getAndDisplayYTVideos(venue_name);  // call function to get YouTube videos from YouTube API and display on info.html
     // flicker API call begins here
@@ -199,13 +202,14 @@ function addPlaceToDom(placeObj) {
         hours = placeObj.opening_hours.open_now;
     }
     var tr = $('<tr>');
-    var media_button = $('<a href="info.html?name=' + name + '"><button type="button" class="btn btn-info mediaButton">Images</button></a>');
+    var media_button = $('<button type="button" class="btn btn-info mediaButton"><a href="info.html?name=' + name + '&vicinity='+vicinity+' ">Images</a></button>');
     tr.append( $('<td>').html('<a href="#">' + name + '</a>') );
     tr.append( $('<td>').text(vicinity) );
     tr.append( $('<td>').text(hours) );
     tr.append( $('<td>').text(rating) );
     tr.append( $('<td>').append(media_button) );
     tr.appendTo(places_list);
+
 }
 //END GOOGLE PLACES API
 
@@ -301,6 +305,10 @@ function getAndDisplayFlickrPhotos(string) {
     console.log('End of click function');
 }
 
+/** This function receives venue_name as a parameter and then uses it as a search term for Twitter API.  It then gets all tweets (the profile pic of the tweeter and the tweet), places them into an object with 2 properties (urlPic & twt), and stores the object into the global array.  It then displays the first 5 tweets (assuming there are at least 5).  VL*/
+/**
+ * @param Twitter_searchTerm - the text that the AJAX call to Twitter searches on
+ */
 function getAndDisplayFirstTweets (Twitter_searchTerm) {
     var photo, picLink;
     tweetNum = 1;
@@ -332,7 +340,8 @@ function getAndDisplayFirstTweets (Twitter_searchTerm) {
     });
 }
 
-    function displayTweets() {
+/** This function displays 5 tweets at a time.  It creates a table in the DOM and retrieves the object properties (picture and tweet) from the global array.  It then dynamically creates elements onto the  table and displays the tweet (tweeter pic and tweet).  VL */
+function displayTweets() {
         var length, photo, picLink, secondNumber, tweet;
 
         secondNumber = tweetNum + 4;
@@ -368,36 +377,42 @@ function getAndDisplayFirstTweets (Twitter_searchTerm) {
         }
     }
 
-    function displayFollowingTweets () {
-        tweetNum += 5;
-        $("tbody tr").remove();
+/** This function deletes the table rows of the old tweets first, then displays the next 5 tweets.  The if block takes care of the "wrap around" in case the user exceeds the number of tweets. VL */
+function displayFollowingTweets () {
+    tweetNum += 5;
+    $("tbody tr").remove();
 
-        if (tweetNum > totalTweetNum) {
-            tweetNum = 1;
-        }
-
-        displayTweets();
+    if (tweetNum > totalTweetNum) {
+        tweetNum = 1;
     }
 
-    function displayPrecedingTweets () {
-        var remainer;
+    displayTweets();
+}
 
-        tweetNum -= 5;
-        $("tbody tr").remove();
+/** This function deletes the table rows of the old tweets first, then displays the preceding 5 tweets.  The if block logic takes care of the "wrap around". VL */
+function displayPrecedingTweets () {
+    var remainer;
 
-        if (tweetNum < 1) {             // if you're already at the 1st 5 tweets, then wrap around to the last tweets
-            remainder = totalTweetNum % 5;
+    tweetNum -= 5;
+    $("tbody tr").remove();
 
-            if (remainder === 0) {      // tweetNum always starts at 1, 6, 11, 16, etc.
-                tweetNum = totalTweetNum - 4;
-            } else {
-                tweetNum = totalTweetNum - remainder + 1;
-            }
+    if (tweetNum < 1) {             // if you're already at the 1st 5 tweets, then wrap around to the last tweets
+        remainder = totalTweetNum % 5;
+
+        if (remainder === 0) {      // tweetNum always starts at 1, 6, 11, 16, etc.
+            tweetNum = totalTweetNum - 4;
+        } else {
+            tweetNum = totalTweetNum - remainder + 1;
         }
-
-        displayTweets();
     }
 
+    displayTweets();
+}
+
+/** This function gets videos based on YT_searchTerm from YouTube.  It retrieves the title and id.  The id is the thing needed to run the video. VL */
+/**
+ * @param YT_searchTerm - the text that YouTube searches on.
+ */
 function getAndDisplayYTVideos (YT_searchTerm) {
     var title, id_video, vid;
     console.log("in function getAndDisplayYTVideos");
