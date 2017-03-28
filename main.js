@@ -269,7 +269,7 @@ function getAndDisplayFlickrPhotos(string) {
                     $("#myCarousel .carousel-inner").append(imageDiv);
                     $(imageDiv).append(image);
                 }
-                else{
+                else {
                     imageDiv = $("<div>").addClass("item");
                     $("#myCarousel .carousel-inner").append(imageDiv);
                     $(imageDiv).append(image);
