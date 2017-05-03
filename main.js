@@ -401,6 +401,11 @@ function getAndDisplayYTVideos (YT_searchTerm) {
                     src: "https://www.youtube.com/embed/" + id_video
                 });
 
+                thumb = $("<img>", {
+                   // src: "https://img.youtube.com/vi/" + id_video + "/0.jpg"
+                    src: "https://img.youtube.com/vi/" + id_video + "/hqdefault.jpg"
+                });
+
                 if (!j) {
                     var youTubeDiv = $("<div>").addClass("item active");
                     $("#myCarousel2 .carousel-inner").append(youTubeDiv);
@@ -409,7 +414,7 @@ function getAndDisplayYTVideos (YT_searchTerm) {
                 else {
                     youTubeDiv = $("<div>").addClass("item");
                     $("#myCarousel2 .carousel-inner").append(youTubeDiv);
-                    $(youTubeDiv).append(vid);
+                    $(youTubeDiv).append(thumb);
                 }
             }
         }
